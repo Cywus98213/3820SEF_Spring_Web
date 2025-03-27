@@ -8,10 +8,11 @@ CREATE TABLE Users (
         roles VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE Courses (
+CREATE TABLE IF NOT EXISTS Courses (
         course_id INT PRIMARY KEY AUTO_INCREMENT,
         course_name VARCHAR(255) NOT NULL
 );
+
 
 CREATE TABLE Lectures (
         lecture_id INT PRIMARY KEY AUTO_INCREMENT,
