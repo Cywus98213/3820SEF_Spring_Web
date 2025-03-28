@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class LecturesService {
@@ -14,8 +13,11 @@ public class LecturesService {
     private LecturesRepository lecturesRepository;
 
     public List<Lectures> getLecturesByCourseId(int courseId) {
-        return lecturesRepository.findAll().stream()
-                .filter(lecture -> lecture.getCourse().getCourseId() == courseId)
-                .collect(Collectors.toList());
+        return lecturesRepository.findByCourseCourseId(courseId);
     }
+
+    public Lectures getLectureById(int lectureId) {
+        return lecturesRepository.findById(lectureId).orElse(null);
+    }
+
 }

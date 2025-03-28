@@ -8,13 +8,22 @@
 <div class="container mt-4">
     <h2 class="text-center">Web Applications: Design and Development</h2>
 
+    <!-- Logout Button -->
+    <div class="text-end mb-4">
+        <form action="/logout" method="POST">
+            <button type="submit" class="btn btn-danger">Log Out</button>
+        </form>
+    </div>
+
     <h3 class="mt-4">Courses</h3>
     <c:choose>
         <c:when test="${not empty courses}">
             <ul class="list-group">
                 <c:forEach var="course" items="${courses}">
                     <li class="list-group-item">
-                            ${course.courseName}
+                        <a href="/course/${course.courseId}" class="text-decoration-none">
+                                ${course.courseName}
+                        </a>
                     </li>
                 </c:forEach>
             </ul>
@@ -30,7 +39,9 @@
             <ul class="list-group">
                 <c:forEach var="poll" items="${polls}">
                     <li class="list-group-item">
-                            ${poll.pollQuestion}
+                        <a href="/poll/${poll.pollId}" class="text-decoration-none">
+                                ${poll.pollQuestion}
+                        </a>
                     </li>
                 </c:forEach>
             </ul>

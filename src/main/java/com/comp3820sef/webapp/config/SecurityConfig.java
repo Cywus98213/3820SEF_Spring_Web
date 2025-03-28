@@ -26,7 +26,8 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/")
                         .failureUrl("/login?error=true")
 
-                );
+                )
+                .logout(logout -> logout.logoutSuccessUrl("/login?logout=true"));
 
 
         return http.build();
