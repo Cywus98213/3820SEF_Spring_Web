@@ -41,26 +41,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user1 = User
-//                .withDefaultPasswordEncoder()
-//                .username("calvin")
-//                .password("1234")
-//                .roles("STUDENT")
-//                .build();
-//
-//        UserDetails user2 = User
-//                .withDefaultPasswordEncoder()
-//                .username("user")
-//                .password("1234")
-//                .roles("TEACHER")
-//                .build();
-//
-//
-//        return new InMemoryUserDetailsManager(user1, user2);
-
-
     @Bean
     public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
