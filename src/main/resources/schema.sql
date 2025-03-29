@@ -43,6 +43,16 @@ CREATE TABLE  PollOptions (
         vote_count INT DEFAULT 0,
         FOREIGN KEY (poll_id) REFERENCES Polls(poll_id) ON DELETE CASCADE
 );
+CREATE TABLE Votes (
+        vote_id INT PRIMARY KEY AUTO_INCREMENT,
+        poll_id INT NOT NULL,
+        user_id INT NOT NULL,
+        option_id INT NOT NULL,
+        FOREIGN KEY (poll_id) REFERENCES Polls(poll_id) ON DELETE CASCADE,
+        FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+        FOREIGN KEY (option_id) REFERENCES PollOptions(option_id) ON DELETE CASCADE,
+        UNIQUE (poll_id, user_id) -- Ensure each user can vote only once per poll
+);
 
 
 CREATE TABLE  PollComments (

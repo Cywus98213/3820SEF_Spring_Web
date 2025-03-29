@@ -16,5 +16,4 @@ public class PollOptionsService {
     public List<PollOptions> findByPollsPollId(int pollId) {
         return pollOptionRepository.findByPollsPollId(pollId);
     }
-
 }

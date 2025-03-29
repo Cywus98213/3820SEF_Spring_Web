@@ -26,6 +26,10 @@ public class UserPrincipal implements UserDetails {
         return user.getPassword();
     }
 
+    public int getUserId() {
+        return user.getUserId();
+    }
+
     @Override
     public String getUsername() {
         return user.getUsername();

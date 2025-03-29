@@ -2,8 +2,8 @@ INSERT INTO Users (full_name, username, password, email, phone_number, roles) VA
           ('Alice Johnson', 'alice123', 'securepassword1', 'alice@example.com', '1234567890', 'student'),
           ('Bob Smith', 'bob_teacher', 'securepassword2', 'bob@example.com', '0987654321', 'teacher'),
           ('Charlie Brown', 'charlie_b', 'securepassword3', 'charlie@example.com', NULL, 'student'),
-          ('Diana Prince', 'diana_teacher', 'securepassword4', 'diana@example.com', '9876543210', 'teacher');
-
+          ('Diana Prince', 'diana_teacher', 'securepassword4', 'diana@example.com', '9876543210', 'teacher'),
+          ('user test', 'user', '1234', 'user@example.com', '123367890', 'student');
 
 
 INSERT INTO Lectures (lecture_title) VALUES
@@ -11,6 +11,7 @@ INSERT INTO Lectures (lecture_title) VALUES
           ('Advanced Database Design'),
           ('Machine Learning Basics'),
           ('Web Development Best Practices');
+
 
 
 INSERT INTO LectureNotes (lecture_id, note_link) VALUES
@@ -36,25 +37,17 @@ INSERT INTO Polls (poll_question) VALUES
 
 
 
-INSERT INTO PollOptions (poll_id, option_text, vote_count)
-VALUES
--- Poll 1 Options: HTML tags
-(1, 'div', 10),
-(1, 'span', 5),
-(1, 'header', 3),
-(1, 'section', 2),
+INSERT INTO PollOptions (poll_id, option_text, vote_count) VALUES
+        (1, 'Python', 0),
+        (1, 'Java', 0),
+        (1, 'C++', 0),
+        (2, 'Excellent', 0),
+        (2, 'Good', 0),
+        (2, 'Average', 0),
+        (3, 'Frontend Development', 0),
+        (3, 'Backend Development', 0),
+        (3, 'Cloud Computing', 0);
 
--- Poll 2 Options: CSS properties
-(2, 'color', 8),
-(2, 'margin', 5),
-(2, 'padding', 6),
-(2, 'display', 4),
-
--- Poll 3 Options: JavaScript features
-(3, 'Functions', 12),
-(3, 'DOM Manipulation', 7),
-(3, 'Promises', 10),
-(3, 'Async/Await', 4);
 
 
 INSERT INTO PollComments (poll_id, user_id, comment_text) VALUES

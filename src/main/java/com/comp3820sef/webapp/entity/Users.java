@@ -11,12 +11,11 @@ public class Users{
     private int userId;
 
     private String fullName;
-
     private String username;
     private String password;
     private String email;
     private String phoneNumber;
-    private String roles;  // Comma-separated roles (e.g., "ROLE_ADMIN,ROLE_USER")
+    private String roles;
 
 
     public int getUserId() {
