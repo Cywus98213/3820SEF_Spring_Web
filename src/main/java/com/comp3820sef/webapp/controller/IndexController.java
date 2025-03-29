@@ -1,12 +1,30 @@
 package com.comp3820sef.webapp.controller;
 
+import com.comp3820sef.webapp.entity.Lectures;
+import com.comp3820sef.webapp.entity.Polls;
+import com.comp3820sef.webapp.service.LecturesService;
+import com.comp3820sef.webapp.service.PollsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 @Controller
 public class IndexController {
-    @RequestMapping("/")
-    public String index(){
+
+    @Autowired
+    private PollsService pollsService;
+    @Autowired
+    private LecturesService lecturesService;
+
+    @GetMapping("/")
+    public String indexPage(Model model) {
+        List<Polls> polls = pollsService.getAllPolls();
+        List<Lectures> lectures = lecturesService.getAllLecture();
+        model.addAttribute("polls", polls);
+        model.addAttribute("lectures", lectures);
         return "index";
     }
 }
