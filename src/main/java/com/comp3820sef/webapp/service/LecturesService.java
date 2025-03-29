@@ -12,12 +12,12 @@ public class LecturesService {
     @Autowired
     private LecturesRepository lecturesRepository;
 
-    public List<Lectures> getLecturesByCourseId(int courseId) {
-        return lecturesRepository.findByCourseCourseId(courseId);
-    }
-
     public Lectures getLectureById(int lectureId) {
         return lecturesRepository.findById(lectureId).orElse(null);
+    }
+
+    public List<Lectures> getAllLecture(){
+        return lecturesRepository.findAll();
     }
 
 }

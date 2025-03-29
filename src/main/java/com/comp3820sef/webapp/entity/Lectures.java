@@ -8,26 +8,9 @@ public class Lectures {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int lectureId;
 
-    @ManyToOne
-    @JoinColumn(name = "courseId")
-    private Courses course;
-
     private String lectureTitle;
     private String lectureNotesLink;
     private String lectureComment;
-
-    public Courses getCourse() {
-        return course;
-    }
-
-    public void setCourse(Courses course) {
-        this.course = course;
-    }
-
-    // Getter for courseId from course
-    public int getCourseId() {
-        return course.getCourseId();
-    }
 
     public int getLectureId() {
         return lectureId;

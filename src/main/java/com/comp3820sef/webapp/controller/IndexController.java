@@ -1,8 +1,8 @@
 package com.comp3820sef.webapp.controller;
 
-import com.comp3820sef.webapp.entity.Courses;
+import com.comp3820sef.webapp.entity.Lectures;
 import com.comp3820sef.webapp.entity.Polls;
-import com.comp3820sef.webapp.service.CoursesService;
+import com.comp3820sef.webapp.service.LecturesService;
 import com.comp3820sef.webapp.service.PollsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,16 +15,16 @@ import java.util.List;
 public class IndexController {
 
     @Autowired
-    private CoursesService coursesService;
-    @Autowired
     private PollsService pollsService;
+    @Autowired
+    private LecturesService lecturesService;
 
     @GetMapping("/")
-    public String showCourses(Model model) {
-        List<Courses> courses = coursesService.getAllCourses();
+    public String indexPage(Model model) {
         List<Polls> polls = pollsService.getAllPolls();
-        model.addAttribute("courses", courses);
+        List<Lectures> lectures = lecturesService.getAllLecture();
         model.addAttribute("polls", polls);
+        model.addAttribute("lectures", lectures);
         return "index";
     }
 }

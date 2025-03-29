@@ -1,12 +1,6 @@
 package com.comp3820sef.webapp.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Polls") // Maps the entity to the Polls table
@@ -14,12 +8,13 @@ public class Polls {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "poll_id")
     private int pollId;
 
     private String pollQuestion;
 
     @ManyToOne
-    @JoinColumn(name = "lectureId", nullable = false)
+    @JoinColumn(name = "lecture_id", nullable = false)
     private Lectures lecture;
 
 
