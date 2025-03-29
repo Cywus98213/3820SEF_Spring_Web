@@ -4,20 +4,28 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "USERS")
-public class Users {
+public class Users{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
 
-
     private String fullName;
 
-    @Column(name = "username",unique = true)
     private String username;
     private String password;
     private String email;
     private String phoneNumber;
-    private String roles;
+    private String roles;  // Comma-separated roles (e.g., "ROLE_ADMIN,ROLE_USER")
+
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public String getRoles() {
         return roles;
@@ -27,12 +35,20 @@ public class Users {
         this.roles = roles;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -51,27 +67,11 @@ public class Users {
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

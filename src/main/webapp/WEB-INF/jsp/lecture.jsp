@@ -165,7 +165,7 @@
 <div class="container">
     <!-- Go Back Button -->
     <div class="mb-3">
-        <a href="javascript:history.back()" class="btn-back">
+        <a href="/" class="btn-back">
             <i class="fas fa-arrow-left me-2"></i> Go Back
         </a>
     </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Index</title>
+    <title>COMP3820SEF: Design and Development</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         body {
@@ -19,6 +19,11 @@
             padding: 2rem;
             margin: 0 auto;
             transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
         }
 
         h2 {
@@ -42,41 +47,16 @@
             background: linear-gradient(90deg, #3b82f6, #1e40af);
         }
 
-        h3 {
-            color: #1e293b;
-            font-weight: 700;
-            margin: 2rem 0 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e2e8f0;
-        }
-
-        .list-group-item {
-            border: none;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-            padding: 1.25rem;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        .welcome-message {
+            font-weight: 600;
+            color: #0f172a;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            border: 2px dashed #3b82f6;
+            padding: 10px;
+            border-radius: 10px;
             background-color: #f8fafc;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .list-group-item:hover {
-            background-color: #eff6ff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        .list-group-item a {
-            color: #1e293b;
-            font-weight: 500;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .list-group-item:hover a {
-            color: #1e40af;
         }
 
         .btn-danger {
@@ -94,6 +74,50 @@
             box-shadow: 0 4px 6px rgba(220, 38, 38, 0.2);
         }
 
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
+        }
+
+        .list-group-item {
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            padding: 1.25rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: #f8fafc;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .list-group-item:hover {
+            background-color: #eff6ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1);
+        }
+
+        .list-group-item a {
+            color: #1e293b;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .list-group-item:hover a {
+            color: #1e40af;
+        }
+
         .no-content {
             color: #64748b;
             font-style: italic;
@@ -107,13 +131,30 @@
 </head>
 <body>
 <div class="container">
-    <h2>COMP3810SEF: Design and Development</h2>
+    <!-- Course Title -->
+    <h2>COMP3820SEF: Design and Development</h2>
 
-    <div class="text-end mb-4">
-        <form action="/logout" method="POST">
-            <button type="submit" class="btn btn-danger">Log Out</button>
-        </form>
-    </div>
+    <!-- Welcome Message -->
+    <c:if test="${pageContext.request.userPrincipal != null}">
+        <p class="welcome-message">Welcome back, ${pageContext.request.userPrincipal.name}!</p>
+    </c:if>
+
+    <!-- Log Out Button if User is Logged In -->
+    <c:if test="${pageContext.request.userPrincipal != null}">
+        <div class="text-end mb-4">
+            <form action="/logout" method="POST">
+                <button type="submit" class="btn btn-danger">Log Out</button>
+            </form>
+        </div>
+    </c:if>
+
+    <!-- Log In Button if User is Not Logged In -->
+    <c:if test="${pageContext.request.userPrincipal == null}">
+        <div class="text-end mb-4">
+            <a href="/login" class="btn btn-primary">Log In</a>
+        </div>
+    </c:if>
+
     <!-- Lectures Section -->
     <h3>📚 Lectures</h3>
     <c:choose>
