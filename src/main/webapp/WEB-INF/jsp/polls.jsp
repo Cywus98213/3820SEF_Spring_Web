@@ -111,16 +111,16 @@
 <div class="container">
     <!-- Go Back Button -->
     <div class="mb-4">
-        <a href="javascript:history.back()" class="btn-back">
+        <a href="/" class="btn-back">
             <i class="fas fa-arrow-left"></i> Go Back
         </a>
     </div>
 
-    <!-- Poll Question -->
+
     <h1>${poll.pollQuestion}</h1>
 
-    <!-- Poll Options -->
-    <form action="${pageContext.request.contextPath}/poll/${poll.pollId}" method="post">
+
+    <form action="" method="post">
         <input type="hidden" name="pollId" value="${poll.pollId}">
         <div class="options-container">
             <c:forEach items="${options}" var="option">

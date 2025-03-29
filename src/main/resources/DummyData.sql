@@ -13,6 +13,7 @@ INSERT INTO Lectures (lecture_title) VALUES
           ('Web Development Best Practices');
 
 
+
 INSERT INTO LectureNotes (lecture_id, note_link) VALUES
          (1, 'https://example.com/notes/programming_intro.pdf'),
          (2, 'https://example.com/notes/db_design.pdf'),
@@ -36,25 +37,26 @@ INSERT INTO Polls (poll_question) VALUES
 
 
 
-INSERT INTO PollOptions (poll_id, option_text, vote_count)
-VALUES
--- Poll 1 Options: HTML tags
-(1, 'div', 10),
-(1, 'span', 5),
-(1, 'header', 3),
-(1, 'section', 2),
+INSERT INTO PollOptions (poll_id, option_text, vote_count) VALUES
+        (1, 'Python', 10),
+        (1, 'Java', 5),
+        (1, 'C++', 3),
+        (2, 'Excellent', 8),
+        (2, 'Good', 6),
+        (2, 'Average', 4),
+        (3, 'Frontend Development', 7),
+        (3, 'Backend Development', 5),
+        (3, 'Cloud Computing', 3);
 
--- Poll 2 Options: CSS properties
-(2, 'color', 8),
-(2, 'margin', 5),
-(2, 'padding', 6),
-(2, 'display', 4),
 
--- Poll 3 Options: JavaScript features
-(3, 'Functions', 12),
-(3, 'DOM Manipulation', 7),
-(3, 'Promises', 10),
-(3, 'Async/Await', 4);
+INSERT INTO Votes (poll_id, user_id, option_id) VALUES
+        (1, 1, 1), -- Alice voted for Python
+        (1, 3, 2), -- Charlie voted for Java
+        (2, 1, 4), -- Alice rated the lecture "Excellent"
+        (2, 2, 5), -- Bob rated the lecture "Good"
+        (3, 1, 7), -- Alice chose "Frontend Development"
+        (3, 2, 8); -- Bob chose "Backend Development"
+
 
 
 INSERT INTO PollComments (poll_id, user_id, comment_text) VALUES
