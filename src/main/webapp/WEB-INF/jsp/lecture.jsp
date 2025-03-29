@@ -139,10 +139,38 @@
             font-size: 1.25rem;
             color: var(--primary-blue);
         }
+
+        .btn-back {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-blue);
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background: var(--accent-blue);
+        }
     </style>
 </head>
 <body>
 <div class="container">
+    <!-- Go Back Button -->
+    <div class="mb-3">
+        <a href="javascript:history.back()" class="btn-back">
+            <i class="fas fa-arrow-left me-2"></i> Go Back
+        </a>
+    </div>
+
+    <!-- Lecture Title -->
     <h1>${lecture.lectureTitle}</h1>
 
     <!-- Lecture Notes Section -->
@@ -174,7 +202,7 @@
                     <div class="comment">
                         <div class="d-flex justify-content-between align-items-center">
                             <strong>${comment.user.username}</strong>
-                            <span class="text-muted">${comment.commentDate}</span>
+                            <span class="text-muted">${comment.createAt}</span>
                         </div>
                         <p>${comment.commentText}</p>
                     </div>

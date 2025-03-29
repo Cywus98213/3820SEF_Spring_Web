@@ -2,6 +2,8 @@ package com.comp3820sef.webapp.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "LECTURECOMMENT")
 public class LectureComments {
@@ -21,8 +23,15 @@ public class LectureComments {
     @Column(name = "comment_text", nullable = false)
     private String commentText;
 
-    private String commentDate;
+    private Date createAt;
 
+    public Date getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
+    }
 
     public int getLectureCommentId() {
         return lectureCommentId;
@@ -56,11 +65,4 @@ public class LectureComments {
         this.commentText = commentText;
     }
 
-    public String getCommentDate() {
-        return commentDate;
-    }
-
-    public void setCommentDate(String commentDate) {
-        this.commentDate = commentDate;
-    }
 }

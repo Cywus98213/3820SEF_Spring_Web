@@ -3,7 +3,7 @@ package com.comp3820sef.webapp.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Polls") // Maps the entity to the Polls table
+@Table(name = "polls") // Maps the entity to the "polls" table
 public class Polls {
 
     @Id
@@ -11,17 +11,12 @@ public class Polls {
     @Column(name = "poll_id")
     private int pollId;
 
+    @Column(name = "poll_question", nullable = false)
     private String pollQuestion;
-
-    @ManyToOne
-    @JoinColumn(name = "lecture_id", nullable = false)
-    private Lectures lecture;
-
 
     public int getPollId() {
         return pollId;
     }
-
 
     public void setPollId(int pollId) {
         this.pollId = pollId;
@@ -33,13 +28,5 @@ public class Polls {
 
     public void setPollQuestion(String pollQuestion) {
         this.pollQuestion = pollQuestion;
-    }
-
-    public Lectures getLecture() {
-        return lecture;
-    }
-
-    public void setLecture(Lectures lecture) {
-        this.lecture = lecture;
     }
 }

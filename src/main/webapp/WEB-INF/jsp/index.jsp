@@ -114,7 +114,6 @@
             <button type="submit" class="btn btn-danger">Log Out</button>
         </form>
     </div>
-
     <!-- Lectures Section -->
     <h3>📚 Lectures</h3>
     <c:choose>

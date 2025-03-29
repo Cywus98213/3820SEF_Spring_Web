@@ -18,8 +18,8 @@ public class PollsService {
         return pollsRepository.findAll();
     }
 
-    //for lecture poll fetch
-    public List<Polls> getPollsByLectureId(int lectureId) {
-        return pollsRepository.findPollsByLectureLectureId(lectureId);
+    public Polls getPollById(int pollId) {
+        return pollsRepository.findById(pollId).orElse(null);
     }
+
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 public class Lectures {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "LECTURE_ID", nullable = false)
     private int lectureId;
 
     private String lectureTitle;

@@ -20,7 +20,6 @@ CREATE TABLE LectureNotes (
         FOREIGN KEY (lecture_id) REFERENCES Lectures(lecture_id) ON DELETE CASCADE
 );
 
-
 CREATE TABLE LectureComment (
         comment_id INT PRIMARY KEY AUTO_INCREMENT,
         lecture_id INT NOT NULL,
@@ -34,9 +33,7 @@ CREATE TABLE LectureComment (
 
 CREATE TABLE Polls (
         poll_id INT PRIMARY KEY AUTO_INCREMENT,
-        lecture_id INT NOT NULL,
-        poll_question VARCHAR(255) NOT NULL,
-        FOREIGN KEY (lecture_id) REFERENCES Lectures(lecture_id) ON DELETE CASCADE
+        poll_question VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE  PollOptions (
