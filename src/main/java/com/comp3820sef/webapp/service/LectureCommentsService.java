@@ -48,4 +48,22 @@ public class LectureCommentsService {
         lectureCommentsRepository.save(comment);
     }
 
+    public void updateComment(String commentText, int lectureId, int userId, int commentId) {
+
+        Lectures lecture = lecturesRepository.findById(lectureId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid lecture ID"));
+
+        Users user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+
+        LectureComments comment = lectureCommentsRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid comment ID"));
+
+        comment.setCommentText(commentText);
+        comment.setLecture(lecture);
+        comment.setUser(user);
+        comment.setCreateAt(new Date());
+        lectureCommentsRepository.save(comment);
+    }
+
 }

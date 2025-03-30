@@ -228,35 +228,29 @@
         }
     </style>
     <script>
+        // Toggle main comment form
         function toggleCommentForm() {
             const form = document.getElementById('commentForm');
             const btn = document.getElementById('addCommentBtn');
-            if (form.style.display === 'none' || form.style.display === '') {
-                form.style.display = 'block';
-                btn.innerHTML = '<i class="fas fa-times me-2"></i>Cancel';
-                btn.classList.remove('btn-primary');
-                btn.classList.add('btn-danger');
-            } else {
-                form.style.display = 'none';
-                btn.innerHTML = '<i class="fas fa-plus me-2"></i>Add Comment';
-                btn.classList.remove('btn-danger');
-                btn.classList.add('btn-primary');
-            }
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            btn.innerHTML = form.style.display === 'none'
+                ? '<i class="fas fa-plus me-2"></i>Add Comment'
+                : '<i class="fas fa-times me-2"></i>Cancel';
         }
 
-        function toggleEditForm(commentId) {
-            const commentText = document.getElementById(`comment-text-${commentId}`);
-            const editForm = document.getElementById(`edit-form-${commentId}`);
+            function showEditForm(commentId) {
+                const id = commentId;
+                console.log(id)
 
-            if (editForm.style.display === 'none' || editForm.style.display === '') {
-                commentText.style.display = 'none';
-                editForm.style.display = 'block';
-            } else {
-                commentText.style.display = 'block';
-                editForm.style.display = 'none';
+                const editForm = document.getElementById("edit-form-" + id);
+
+                console.log(editForm)
+
+                if (editForm) {
+                    editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
+                }
             }
-        }
-
+        // Cancel edit and restore original comment
         function cancelEdit(commentId) {
             toggleEditForm(commentId);
         }
@@ -328,9 +322,6 @@
                           placeholder="Write your comment here..." required></textarea>
             </div>
             <div class="d-flex justify-content-end gap-2">
-                <button type="button" class="btn-action btn-danger" onclick="toggleCommentForm()">
-                    Cancel
-                </button>
                 <button type="submit" class="btn-action btn-success-green">
                     <i class="fas fa-check me-2"></i>
                     Post Comment
@@ -343,20 +334,25 @@
         <c:choose>
             <c:when test="${not empty lectureComments}">
                 <div class="comment-list">
+                    <!-- In the comments section -->
+                    <!-- Comments List -->
                     <c:forEach var="comment" items="${lectureComments}">
                         <div class="comment">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <div class="d-flex align-items-center gap-2">
                                     <strong>${comment.user.username}</strong>
-                                    <!-- Edit Button for Comment Owner -->
+
+
+                                    <!-- Teacher only -->
                                     <c:if test="${userId == comment.user.userId}">
                                         <button class="btn-action btn-edit-comment btn-icon"
-                                                onclick="toggleEditForm('${comment.lectureCommentId}')"
+                                                onclick="showEditForm(${comment.lectureCommentId})"
                                                 title="Edit comment">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                     </c:if>
-                                    <!-- Delete Button for Teachers -->
+
+                                    <!-- Teacher Only -->
                                     <c:if test="${role == 'teacher'}">
                                         <form action="/delete-comment" method="POST" class="d-inline">
                                             <input type="hidden" name="commentId" value="${comment.lectureCommentId}">
@@ -368,32 +364,27 @@
                                 </div>
                                 <small class="text-muted">${comment.createAt}</small>
                             </div>
-                            <p class="mb-0" id="comment-text-${comment.lectureCommentId}">${comment.commentText}</p>
-
-                            <!-- Edit Comment Form -->
-                            <form id="edit-form-${comment.lectureCommentId}"
-                                  action="/update-comment"
-                                  method="POST"
-                                  class="edit-comment-form"
-                                  style="display: none;">
-                                <input type="hidden" name="commentId" value="${comment.lectureCommentId}">
-                                <div class="mt-2">
-                                    <textarea class="form-control"
-                                    name="updatedText"
-                                     rows="3">${comment.commentText}</textarea>
-                                </div>
-                                <div class="d-flex justify-content-end gap-2 mt-2">
-                                    <button type="button"
-                                            class="btn-action btn-danger btn-sm"
-                                            onclick="cancelEdit('${comment.lectureCommentId}')">
-                                        Cancel
-                                    </button>
-                                    <button type="submit"
-                                            class="btn-action btn-success-green btn-sm">
-                                        Save
-                                    </button>
-                                </div>
-                            </form>
+                            <!-- Original Comment Text -->
+                            <div>
+                                <p class="mb-0" id="comment-text-${comment.lectureCommentId}">
+                                        ${comment.commentText}
+                                </p>
+                                <!-- Edit Comment Form -->
+                                <form id="edit-form-${comment.lectureCommentId}" action="/updateComment" method="POST" class="comment-form" style="display: none;">
+                                    <div class="mb-3">
+                                        <textarea class="form-control" name="updatedText" id="updatedText" rows="4" placeholder="Write your comment here..." required></textarea>
+                                    </div>
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <button type="submit" class="btn-action btn-success-green">
+                                            <i class="fas fa-check me-2"></i>
+                                            Update Comment
+                                        </button>
+                                    </div>
+                                    <input type="hidden" name="_method" value="PUT">
+                                    <input type="hidden" name="lectureId" value="${lecture.lectureId}">
+                                    <input type="hidden" name="lectureCommentId" value="${comment.lectureCommentId}">
+                                </form>
+                            </div>
                         </div>
                     </c:forEach>
                 </div>
