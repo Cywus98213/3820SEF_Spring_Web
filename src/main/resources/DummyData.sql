@@ -1,9 +1,9 @@
 INSERT INTO Users (full_name, username, password, email, phone_number, roles) VALUES
-          ('Alice Johnson', 'alice123', 'securepassword1', 'alice@example.com', '1234567890', 'student'),
-          ('Bob Smith', 'bob_teacher', 'securepassword2', 'bob@example.com', '0987654321', 'teacher'),
-          ('Charlie Brown', 'charlie_b', 'securepassword3', 'charlie@example.com', NULL, 'student'),
-          ('Diana Prince', 'diana_teacher', 'securepassword4', 'diana@example.com', '9876543210', 'teacher'),
-          ('user test', 'user', '1234', 'user@example.com', '123367890', 'student');
+          ('Alice Johnson', 'alice123', 'securepassword1', 'alice@example.com', '12345678', 'student'),
+          ('Bob Smith', 'bob_teacher', 'securepassword2', 'bob@example.com', '09876543', 'teacher'),
+          ('Charlie Brown', 'charlie_b', 'securepassword3', 'charlie@example.com', '142523', 'student'),
+          ('Diana Prince', 'diana_teacher', 'securepassword4', 'diana@example.com', '98765432', 'teacher'),
+          ('TestUser', 'user', '1234', 'user@example.com', '1233678', 'student');
 
 
 INSERT INTO Lectures (lecture_title) VALUES
@@ -14,11 +14,11 @@ INSERT INTO Lectures (lecture_title) VALUES
 
 
 
-INSERT INTO LectureNotes (lecture_id, note_link) VALUES
-         (1, 'https://example.com/notes/programming_intro.pdf'),
-         (2, 'https://example.com/notes/db_design.pdf'),
-         (3, 'https://example.com/notes/machine_learning.pdf'),
-         (4, 'https://example.com/notes/web_development.pdf');
+INSERT INTO LectureNotes (lecture_id, note_title ,note_link) VALUES
+         (1, 'Programming Intro','https://example.com/notes/programming_intro.pdf'),
+         (2, 'DataBase Design','https://example.com/notes/db_design.pdf'),
+         (3, 'Machine Learning','https://example.com/notes/machine_learning.pdf'),
+         (4, 'Web Development','https://example.com/notes/web_development.pdf');
 
 
 

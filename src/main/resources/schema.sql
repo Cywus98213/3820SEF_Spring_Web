@@ -4,7 +4,7 @@ CREATE TABLE Users (
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    phone_number VARCHAR(15),
+    phone_number VARCHAR(8) NOT NULL ,
     roles ENUM('student', 'teacher') NOT NULL
 );
 
@@ -16,6 +16,7 @@ CREATE TABLE Lectures (
 CREATE TABLE LectureNotes (
         note_id INT PRIMARY KEY AUTO_INCREMENT,
         lecture_id INT NOT NULL,
+        note_title VARCHAR(50),
         note_link VARCHAR(500) NOT NULL,
         FOREIGN KEY (lecture_id) REFERENCES Lectures(lecture_id) ON DELETE CASCADE
 );

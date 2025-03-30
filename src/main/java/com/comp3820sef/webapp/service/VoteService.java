@@ -29,14 +29,15 @@ public class VoteService {
     private UserRepository userRepository;
 
     public void submitVote(int pollId, int userId, int optionId) {
-        // Check if the user has already voted in this poll
+
+
         Optional<Vote> existingVote = voteRepository.findByPollsPollIdAndUserUserId(pollId, userId);
 
         if (existingVote.isPresent()) {
-            // User has already voted: update their vote
+            // if they vote
             Vote vote = existingVote.get();
 
-            // Decrease vote count for the previously selected option
+            // minus the prev vote
             PollOptions oldOption = vote.getOption();
             oldOption.setVoteCount(oldOption.getVoteCount() - 1);
             pollOptionRepository.save(oldOption);
@@ -47,7 +48,7 @@ public class VoteService {
             vote.setOption(newOption);
             voteRepository.save(vote);
 
-            // Increase vote count for the newly selected option
+            // increase the vote
             newOption.setVoteCount(newOption.getVoteCount() + 1);
             pollOptionRepository.save(newOption);
 

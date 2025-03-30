@@ -8,13 +8,20 @@ public class Users{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", unique = true, nullable = false)
     private int userId;
 
-    private String fullName;
+    @Column(name = "full_name", nullable = false)
+    private String full_Name;
+    @Column(name = "username", nullable = false)
     private String username;
+    @Column(name = "password", nullable = false)
     private String password;
+    @Column(name = "email", nullable = false)
     private String email;
+    @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
+    @Column(name = "roles", nullable = false)
     private String roles;
 
 
@@ -35,11 +42,11 @@ public class Users{
     }
 
     public String getFullName() {
-        return fullName;
+        return full_Name;
     }
 
     public void setFullName(String fullName) {
-        this.fullName = fullName;
+        this.full_Name = fullName;
     }
 
     public String getUsername() {

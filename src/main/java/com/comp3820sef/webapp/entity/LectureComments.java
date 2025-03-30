@@ -10,6 +10,7 @@ public class LectureComments {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id", unique = true, nullable = false)
     private int lectureCommentId;
 
     @ManyToOne
@@ -23,7 +24,9 @@ public class LectureComments {
     @Column(name = "comment_text", nullable = false)
     private String commentText;
 
+    @Column(name = "created_at", nullable = false)
     private Date createAt;
+
 
     public Date getCreateAt() {
         return createAt;
@@ -33,20 +36,12 @@ public class LectureComments {
         this.createAt = createAt;
     }
 
-    public int getLectureCommentId() {
-        return lectureCommentId;
+    public String getCommentText() {
+        return commentText;
     }
 
-    public void setLectureCommentId(int lectureCommentId) {
-        this.lectureCommentId = lectureCommentId;
-    }
-
-    public Lectures getLecture() {
-        return lecture;
-    }
-
-    public void setLecture(Lectures lecture) {
-        this.lecture = lecture;
+    public void setCommentText(String commentText) {
+        this.commentText = commentText;
     }
 
     public Users getUser() {
@@ -57,12 +52,20 @@ public class LectureComments {
         this.user = user;
     }
 
-    public String getCommentText() {
-        return commentText;
+    public Lectures getLecture() {
+        return lecture;
     }
 
-    public void setCommentText(String commentText) {
-        this.commentText = commentText;
+    public void setLecture(Lectures lecture) {
+        this.lecture = lecture;
+    }
+
+    public int getLectureCommentId() {
+        return lectureCommentId;
+    }
+
+    public void setLectureCommentId(int lectureCommentId) {
+        this.lectureCommentId = lectureCommentId;
     }
 
 }

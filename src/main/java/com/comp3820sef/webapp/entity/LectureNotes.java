@@ -8,6 +8,7 @@ public class LectureNotes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="note_id", nullable=false)
     private int lectureNoteId;
 
     @ManyToOne
@@ -17,6 +18,17 @@ public class LectureNotes {
 
     @Column(name = "note_link", nullable = false, length = 500)
     private String lectureNoteLink;
+
+    @Column(name = "note_title", nullable = false, length = 50)
+    private String lectureNoteTitle;
+
+    public String getLectureNoteTitle() {
+        return lectureNoteTitle;
+    }
+
+    public void setLectureNoteTitle(String lectureNoteTitle) {
+        this.lectureNoteTitle = lectureNoteTitle;
+    }
 
     public Lectures getLecture() {
         return lecture;
