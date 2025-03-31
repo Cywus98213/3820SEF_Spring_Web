@@ -15,7 +15,6 @@ public class LectureNotes {
     @JoinColumn(name = "lecture_id", nullable = false)
     private Lectures lecture;
 
-
     @Column(name = "note_link", nullable = false, length = 500)
     private String lectureNoteLink;
 

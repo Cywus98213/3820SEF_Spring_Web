@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -58,13 +57,10 @@ public class LectureController {
     }
 
     @PostMapping("/addLecture")
-    public String addLecture(@RequestParam("lectureTitle") String lectureTitle,
-                             @RequestParam("lectureFile") MultipartFile lectureFile){
+    public String addLecture(@RequestParam("lectureTitle") String lectureTitle){
 
         try {
-            String fileName = lectureFile.getOriginalFilename();
-
-            lecturesService.addLecture(lectureTitle, fileName);
+            lecturesService.addLecture(lectureTitle);
         } catch (Exception e){
             e.printStackTrace();
         }

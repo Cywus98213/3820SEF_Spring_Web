@@ -352,13 +352,6 @@
             <input type="text" class="form-control" name="lectureTitle" id="lectureTitle"
                    placeholder="Enter lecture title" required>
         </div>
-
-        <!-- File Upload -->
-        <div class="mb-3">
-            <input type="file" class="form-control" name="lectureFile" id="lectureFile" required>
-            <small class="form-text text-muted">Upload lecture materials (PDF, DOCX, etc.)</small>
-        </div>
-
         <!-- Submit Button -->
         <div class="d-flex justify-content-end gap-2">
             <button type="submit" class="btn-auth btn-success">

@@ -24,10 +24,9 @@ public class LecturesService {
         lecturesRepository.deleteById(lectureId);
     }
 
-    public void addLecture(String lectureTitle, String lectureFile) {
+    public void addLecture(String lectureTitle) {
         Lectures lecture = new Lectures();
         lecture.setLectureTitle(lectureTitle);
-        lecture.setLectureNotesLink(lectureFile);
         lecturesRepository.save(lecture);
     }
 }

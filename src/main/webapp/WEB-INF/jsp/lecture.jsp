@@ -365,11 +365,6 @@
                             <a href="${lectureNote.lectureNoteLink}" class="text-decoration-none flex-grow-1">
                                     ${lectureNote.lectureNoteTitle}
                             </a>
-                            <c:if test="${role == 'teacher'}">
-                                <a href="/edit-material?id=${lectureNote.lectureNoteId}" class="btn-action btn-edit btn-icon" title="Edit Material">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
-                            </c:if>
                         </div>
                     </c:forEach>
                 </div>
