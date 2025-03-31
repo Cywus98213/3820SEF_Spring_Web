@@ -20,4 +20,14 @@ public class LecturesService {
         return lecturesRepository.findAll();
     }
 
+    public void deleteLectureById(int lectureId) {
+        lecturesRepository.deleteById(lectureId);
+    }
+
+    public void addLecture(String lectureTitle, String lectureFile) {
+        Lectures lecture = new Lectures();
+        lecture.setLectureTitle(lectureTitle);
+        lecture.setLectureNotesLink(lectureFile);
+        lecturesRepository.save(lecture);
+    }
 }

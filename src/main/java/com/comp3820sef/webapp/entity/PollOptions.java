@@ -51,4 +51,6 @@ public class PollOptions {
     public void setOptionId(int optionId) {
         this.optionId = optionId;
     }
+
+
 }
