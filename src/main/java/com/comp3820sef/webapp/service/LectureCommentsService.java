@@ -30,15 +30,15 @@ public class LectureCommentsService {
     }
 
     public void addComment(String commentText, int lectureId, int userId) {
-        // Fetch lecture by ID
+
         Lectures lecture = lecturesRepository.findById(lectureId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid lecture ID"));
 
-        // Fetch user by ID
+
         Users user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
 
-        // Create and save the comment
+
         LectureComments comment = new LectureComments();
         comment.setLecture(lecture);
         comment.setUser(user);

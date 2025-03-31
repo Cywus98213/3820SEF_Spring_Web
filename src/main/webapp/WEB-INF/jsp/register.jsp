@@ -205,7 +205,7 @@
         <!-- Teacher Passcode -->
         <div id="teacherPasscode" class="mb-4 position-relative">
             <i class="fas fa-key input-icon"></i>
-            <input type="password" class="form-control"
+            <input type="text" class="form-control"
                    id="passcode" name="passcode"
                    placeholder="Enter teacher passcode">
         </div>

@@ -16,6 +16,33 @@
             --input-bg: #f8fafc;
         }
 
+        .btn-auth {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: 2px solid transparent;
+            font-size: 0.95rem;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-green), #16a34a);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+        }
+
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+            opacity: 0.92;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #f0f9ff, #ffffff);
@@ -29,7 +56,7 @@
             background: rgba(255, 255, 255, 0.98);
             border-radius: 20px;
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-            padding: 3rem;
+            padding: 3.5rem;
             margin: 0 auto;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -42,7 +69,7 @@
         h1 {
             color: var(--text-dark);
             font-weight: 800;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             position: relative;
             padding-bottom: 1.5rem;
             font-size: 2.25rem;
@@ -59,6 +86,25 @@
             height: 3px;
             background: linear-gradient(90deg, var(--primary-color) 0%, rgba(59,130,246,0.2) 100%);
             border-radius: 2px;
+        }
+
+        .btn-teacher {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .section-heading {
+            color: var(--text-dark);
+            font-weight: 700;
+            margin: 2rem 0 1rem;
+            padding: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.25rem;
+            justify-content: space-between;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.1);
         }
 
         .header-actions {
@@ -131,11 +177,11 @@
             display: flex;
             flex-direction: column;
             gap: 1rem;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
         }
 
         .list-group-item {
-            padding: 1.5rem;
+            padding: 1.25rem;
             background: #f8fafc;
             border: none;
             border-radius: 14px;
@@ -158,7 +204,7 @@
             margin-top: 2.5rem;
             background: #f8fafc;
             border-radius: 14px;
-            padding: 1.5rem;
+            padding: 1.5rem 2rem;
         }
 
         .comment-form {
@@ -187,10 +233,10 @@
         }
 
         .comment {
-            padding: 1.25rem;
+            padding: 1.5rem;
             background: white;
             border-radius: 12px;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
             transition: all 0.2s ease;
         }
@@ -203,11 +249,12 @@
         .no-content {
             color: #64748b;
             font-style: italic;
-            padding: 2rem;
+            padding: 1.5rem;
             text-align: center;
             background: #f8fafc;
             border-radius: 12px;
             border: 2px dashed #e2e8f0;
+            margin: 1rem 0;
         }
 
         @media (max-width: 768px) {
@@ -218,12 +265,17 @@
 
             h1 {
                 font-size: 1.75rem;
+                margin-bottom: 1.5rem;
             }
 
             .header-actions {
                 flex-direction: column;
                 gap: 1rem;
                 align-items: flex-start;
+            }
+
+            .comments-section {
+                padding: 1.25rem;
             }
         }
     </style>
@@ -237,19 +289,27 @@
                 ? '<i class="fas fa-plus me-2"></i>Add Comment'
                 : '<i class="fas fa-times me-2"></i>Cancel';
         }
+        function toggleUploadForm() {
+            const form = document.getElementById('fileForm');
+            const btn = document.getElementById('uploadBtn');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            btn.innerHTML = form.style.display === 'none'
+                ? '<i class="fas fa-plus me-2"></i>Upload'
+                : '<i class="fas fa-times me-2"></i>Cancel';
+        }
 
-            function showEditForm(commentId) {
-                const id = commentId;
-                console.log(id)
+        function showEditForm(commentId) {
+            const id = commentId;
+            console.log(id)
 
-                const editForm = document.getElementById("edit-form-" + id);
+            const editForm = document.getElementById("edit-form-" + id);
 
-                console.log(editForm)
+            console.log(editForm)
 
-                if (editForm) {
-                    editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
-                }
+            if (editForm) {
+                editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
             }
+        }
         // Cancel edit and restore original comment
         function cancelEdit(commentId) {
             toggleEditForm(commentId);
@@ -263,21 +323,39 @@
             <i class="fas fa-arrow-left"></i>
             Back to Lectures
         </a>
-        <c:if test="${role == 'teacher'}">
-            <a href="/edit-lecture?id=${lecture.lectureId}" class="btn-action btn-edit btn-icon" title="Edit Lecture">
-                <i class="fas fa-edit"></i>
-            </a>
-        </c:if>
     </div>
 
     <h1>${lecture.lectureTitle}</h1>
 
     <!-- Lecture Materials Section -->
     <div class="materials-section">
-        <h3 class="section-heading">
-            <i class="fas fa-file-alt"></i>
-            Lecture Materials
-        </h3>
+        <div class="section-heading">
+            <div class="d-flex align-items-center gap-2">
+                <i class="fas fa-book-open"></i>
+                Lectures
+            </div>
+            <c:if test="${role == 'teacher'}">
+                <button class="btn-action btn-primary btn-teacher" id="uploadBtn" onclick="toggleUploadForm()">
+                    <i class="fas fa-cloud-upload me-2"></i>
+                    Upload Files
+                </button>
+            </c:if>
+        </div>
+        <form id="fileForm" action="/uploadFile" method="POST" class="form" enctype="multipart/form-data" style="display: none;">
+            <!-- File Upload -->
+            <div class="mb-3">
+                <input type="file" class="form-control" name="lectureFile" id="lectureFile" required>
+                <small class="form-text text-muted">Upload lecture materials (PDF, DOCX, etc.)</small>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-flex justify-content-end gap-2">
+                <button type="submit" class="btn-auth btn-success">
+                    <i class="fas fa-check me-2"></i>
+                    Upload
+                </button>
+            </div>
+        </form>
         <c:choose>
             <c:when test="${not empty lectureNotes}">
                 <div class="list-group">

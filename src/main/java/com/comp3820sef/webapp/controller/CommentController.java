@@ -25,10 +25,16 @@ public class CommentController {
 
 
     @PostMapping("/updateComment")
-    public String updateComment(@RequestParam String _method,@RequestParam("lectureId") int lectureId,@RequestParam("lectureCommentId") int commentId, @RequestParam("updatedText") String updatedText, @AuthenticationPrincipal UserPrincipal user) {
+    public String updateComment(@RequestParam String _method,
+                                @RequestParam("lectureId") int lectureId,
+                                @RequestParam("lectureCommentId") int commentId,
+                                @RequestParam("updatedText") String updatedText,
+                                @AuthenticationPrincipal UserPrincipal user) {
+        System.out.println(commentId);
+
         if ("PUT".equalsIgnoreCase(_method)){
             int userId = user.getUserId();
-            lectureCommentsService.updateComment(updatedText,lectureId, commentId, userId);
+            lectureCommentsService.updateComment(updatedText,lectureId, userId, commentId);
         }
         return "redirect:/lecture/" + lectureId;
     }
