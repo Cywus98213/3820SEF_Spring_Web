@@ -327,7 +327,6 @@
 
     <h1>${lecture.lectureTitle}</h1>
 
-    <!-- Lecture Materials Section -->
     <div class="materials-section">
         <div class="section-heading">
             <div class="d-flex align-items-center gap-2">
@@ -341,8 +340,9 @@
                 </button>
             </c:if>
         </div>
+
+        <!-- File Upload -->
         <form id="fileForm" action="/uploadFile" method="POST" class="form" enctype="multipart/form-data" style="display: none;">
-            <!-- File Upload -->
             <div class="mb-3">
                 <input type="file" class="form-control" name="lectureFile" id="lectureFile" required>
                 <small class="form-text text-muted">Upload lecture materials (PDF, DOCX, etc.)</small>
@@ -355,6 +355,7 @@
                     Upload
                 </button>
             </div>
+            <input type="hidden" name="lectureId" value=${lecture.lectureId}>
         </form>
         <c:choose>
             <c:when test="${not empty lectureNotes}">
@@ -407,8 +408,7 @@
         <c:choose>
             <c:when test="${not empty lectureComments}">
                 <div class="comment-list">
-                    <!-- In the comments section -->
-                    <!-- Comments List -->
+
                     <c:forEach var="comment" items="${lectureComments}">
                         <div class="comment">
                             <div class="d-flex justify-content-between align-items-center mb-2">

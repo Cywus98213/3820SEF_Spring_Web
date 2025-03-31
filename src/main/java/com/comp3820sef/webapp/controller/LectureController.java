@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -65,6 +66,15 @@ public class LectureController {
             e.printStackTrace();
         }
         return "redirect:/";
+    }
+
+    @PostMapping("/uploadFile")
+    public String uploadFile(@RequestParam("lectureFile") MultipartFile file,@RequestParam("lectureId") int lectureId){
+        String fileName = file.getOriginalFilename();
+
+        lectureNotesService.uploadFile(fileName, lectureId);
+
+        return "redirect:/lecture/" + lectureId;
     }
 
 }
