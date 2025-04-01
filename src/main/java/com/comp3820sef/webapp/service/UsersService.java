@@ -35,4 +35,24 @@ public class UsersService{
         }
         userRepository.save(user);
     }
+
+    public void editUser(int userId,
+                         String fullName,
+                         String username,
+                         String email,
+                         String phoneNumber,
+                         String password,
+                         String role) {
+
+        Users user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("UserId not found"));;
+
+        user.setFullName(fullName);
+        user.setEmail(email);
+        user.setUsername(username);
+        user.setPhoneNumber(phoneNumber);
+        user.setPassword(password);
+        user.setRoles(role);
+        userRepository.save(user);
+    }
 }

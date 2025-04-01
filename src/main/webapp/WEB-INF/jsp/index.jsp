@@ -34,6 +34,26 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
+        .settings-button {
+            padding: 0.6rem 0.8rem;
+            margin-bottom: 2em;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .settings-button:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
         .container:hover {
             transform: translateY(-2px);
             box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1);
@@ -95,6 +115,12 @@
             border: 2px solid transparent;
             font-size: 0.95rem;
         }
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+            opacity: 0.92;
+        }
+
 
         .btn-logout {
             background: linear-gradient(135deg, var(--danger-red), #dc2626);
@@ -106,11 +132,7 @@
             color: white;
         }
 
-        .btn-auth:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
-            opacity: 0.92;
-        }
+
 
         .section-heading {
             color: var(--text-dark);
@@ -304,7 +326,15 @@
 <body>
 <div class="container">
     <!-- Course Title -->
-    <h2>COMP3820SEF: Design and Development</h2>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+        <h2 style="margin: 0; flex: 1;">COMP3820SEF: Design and Development</h2>
+        <c:if test="${role != null}">
+            <a class="settings-button text-decoration-none" href="/setting" >
+                <i class="fas fa-cog"></i>
+            </a>
+        </c:if>
+    </div>
+
 
     <!-- Welcome Message -->
     <c:if test="${pageContext.request.userPrincipal != null}">

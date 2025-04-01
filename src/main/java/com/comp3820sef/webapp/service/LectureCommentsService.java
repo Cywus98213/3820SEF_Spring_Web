@@ -66,4 +66,7 @@ public class LectureCommentsService {
         lectureCommentsRepository.save(comment);
     }
 
+    public void deleteById(int commentId) {
+        lectureCommentsRepository.deleteById(commentId);
+    }
 }

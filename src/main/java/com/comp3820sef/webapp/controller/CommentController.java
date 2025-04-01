@@ -23,19 +23,16 @@ public class CommentController {
     }
 
 
-
-    @PostMapping("/updateComment")
-    public String updateComment(@RequestParam String _method,
+    @PostMapping("/deleteComment")
+    public String deleteComment(@RequestParam String _method,
                                 @RequestParam("lectureId") int lectureId,
-                                @RequestParam("lectureCommentId") int commentId,
-                                @RequestParam("updatedText") String updatedText,
-                                @AuthenticationPrincipal UserPrincipal user) {
-        System.out.println(commentId);
+                                @RequestParam("commentId") int commentId
+                                ){
 
-        if ("PUT".equalsIgnoreCase(_method)){
-            int userId = user.getUserId();
-            lectureCommentsService.updateComment(updatedText,lectureId, userId, commentId);
+        if ("DELETE".equalsIgnoreCase(_method)){
+            lectureCommentsService.deleteById(commentId);
         }
+
         return "redirect:/lecture/" + lectureId;
     }
 

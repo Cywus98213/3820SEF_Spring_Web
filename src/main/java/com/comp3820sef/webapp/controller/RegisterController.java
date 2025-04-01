@@ -22,6 +22,11 @@ public class RegisterController {
         return "register";
     }
 
+    @GetMapping("/regSuccess")
+    public String regSuccess() {
+        return "regSuccess";
+    }
+
 
     @PostMapping("/register")
     public String registerSubmit( Model model,
@@ -48,6 +53,7 @@ public class RegisterController {
             return "redirect:/register";
         }
         model.addAttribute("success", "Create user successfully");
-        return "login";
+        return "redirect:/regSuccess";
     }
+
 }

@@ -33,4 +33,8 @@ public class LectureNotesService {
         note.setLectureNoteLink(fileName);
         lectureNotesRepository.save(note);
     }
+
+    public void deleteNoteById(int noteId) {
+        lectureNotesRepository.deleteById(noteId);
+    }
 }

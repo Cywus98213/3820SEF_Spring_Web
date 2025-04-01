@@ -114,6 +114,27 @@
             margin-bottom: 2.5rem;
         }
 
+        .list-group-item {
+            padding: 1.25rem 1.5rem;
+            background: #f8fafc;
+            border: none;
+            border-radius: 12px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 3px 9px rgba(0, 0, 0, 0.03);
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .list-group-item:hover {
+            background: #eff6ff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.1);
+        }
+
         .btn-action {
             display: inline-flex;
             align-items: center;
@@ -148,29 +169,30 @@
             color: white;
         }
 
-        .btn-edit {
-            background: var(--success-green);
-            color: white;
-        }
-
         .btn-edit-comment {
             color: var(--edit-orange);
             border-color: var(--edit-orange);
         }
 
-        .btn-danger {
-            color: var(--danger-red);
-            border-color: var(--danger-red);
-        }
-
         .btn-icon {
             padding: 0.4rem;
-            border-radius: 50%;
+            border-radius: 8px;
             width: 32px;
             height: 32px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-red);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .btn-danger:hover {
+            background: var(--danger-red);
+            color: white;
         }
 
         .list-group {
@@ -180,25 +202,6 @@
             margin-top: 1rem;
         }
 
-        .list-group-item {
-            padding: 1.25rem;
-            background: #f8fafc;
-            border: none;
-            border-radius: 14px;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 3px 9px rgba(0, 0, 0, 0.03);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            text-decoration: none;
-            color: var(--text-dark);
-        }
-
-        .list-group-item:hover {
-            background: #eff6ff;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.12);
-        }
 
         .comments-section {
             margin-top: 2.5rem;
@@ -297,23 +300,6 @@
                 ? '<i class="fas fa-plus me-2"></i>Upload'
                 : '<i class="fas fa-times me-2"></i>Cancel';
         }
-
-        function showEditForm(commentId) {
-            const id = commentId;
-            console.log(id)
-
-            const editForm = document.getElementById("edit-form-" + id);
-
-            console.log(editForm)
-
-            if (editForm) {
-                editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
-            }
-        }
-        // Cancel edit and restore original comment
-        function cancelEdit(commentId) {
-            toggleEditForm(commentId);
-        }
     </script>
 </head>
 <body>
@@ -331,7 +317,7 @@
         <div class="section-heading">
             <div class="d-flex align-items-center gap-2">
                 <i class="fas fa-book-open"></i>
-                Lectures
+                Notes
             </div>
             <c:if test="${role == 'teacher'}">
                 <button class="btn-action btn-primary btn-teacher" id="uploadBtn" onclick="toggleUploadForm()">
@@ -366,6 +352,16 @@
                             <a href="${lectureNote.lectureNoteLink}" class="text-decoration-none flex-grow-1">
                                     ${lectureNote.lectureNoteTitle}
                             </a>
+                            <c:if test="${role == 'teacher'}">
+                                <form action="/deleteNote" method="POST" class="d-inline">
+                                    <input type="hidden" name="lectureId" value="${lecture.lectureId}">
+                                    <input type="hidden" name="noteId" value="${lectureNote.lectureNoteId}">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" class="btn-action btn-danger btn-icon" title="Delete Note">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </c:if>
                         </div>
                     </c:forEach>
                 </div>
@@ -415,20 +411,13 @@
                                 <div class="d-flex align-items-center gap-2">
                                     <strong>${comment.user.username}</strong>
 
-
-                                    <!-- Teacher only -->
-                                    <c:if test="${userId == comment.user.userId}">
-                                        <button class="btn-action btn-edit-comment btn-icon"
-                                                onclick="showEditForm(${comment.lectureCommentId})"
-                                                title="Edit comment">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                    </c:if>
-
                                     <!-- Teacher Only -->
+                                    <!-- delete comment -->
                                     <c:if test="${role == 'teacher'}">
-                                        <form action="/delete-comment" method="POST" class="d-inline">
+                                        <form action="/deleteComment" method="POST" class="d-inline">
+                                            <input type="hidden" name="lectureId" value="${lecture.lectureId}">
                                             <input type="hidden" name="commentId" value="${comment.lectureCommentId}">
+                                            <input type="hidden" name="_method" value="DELETE">
                                             <button type="submit" class="btn-action btn-danger btn-icon" title="Delete comment">
                                                 <i class="fas fa-trash"></i>
                                             </button>
@@ -442,21 +431,6 @@
                                 <p class="mb-0" id="comment-text-${comment.lectureCommentId}">
                                         ${comment.commentText}
                                 </p>
-                                <!-- Edit Comment Form -->
-                                <form id="edit-form-${comment.lectureCommentId}" action="/updateComment" method="POST" class="comment-form" style="display: none;">
-                                    <div class="mb-3">
-                                        <textarea class="form-control" name="updatedText" id="updatedText" rows="4" placeholder="Write your comment here..." required></textarea>
-                                    </div>
-                                    <div class="d-flex justify-content-end gap-2">
-                                        <button type="submit" class="btn-action btn-success-green">
-                                            <i class="fas fa-check me-2"></i>
-                                            Update Comment
-                                        </button>
-                                    </div>
-                                    <input type="hidden" name="_method" value="PUT">
-                                    <input type="hidden" name="lectureId" value="${lecture.lectureId}">
-                                    <input type="hidden" name="lectureCommentId" value="${comment.lectureCommentId}">
-                                </form>
                             </div>
                         </div>
                     </c:forEach>

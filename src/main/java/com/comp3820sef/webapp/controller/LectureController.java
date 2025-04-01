@@ -77,4 +77,15 @@ public class LectureController {
         return "redirect:/lecture/" + lectureId;
     }
 
+    @PostMapping("/deleteNote")
+    public String deleteNote(@RequestParam("noteId") int noteId,
+                             @RequestParam("lectureId") int lectureId,
+                             @RequestParam String _method){
+
+        if ("DELETE".equalsIgnoreCase(_method)){
+            lectureNotesService.deleteNoteById(noteId);
+        }
+        return "redirect:/lecture/" + lectureId;
+    }
+
 }

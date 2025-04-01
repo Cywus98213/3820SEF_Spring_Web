@@ -12,7 +12,7 @@ public class Users{
     private int userId;
 
     @Column(name = "full_name", nullable = false)
-    private String full_Name;
+    private String fullName;
     @Column(name = "username", nullable = false)
     private String username;
     @Column(name = "password", nullable = false)
@@ -42,11 +42,11 @@ public class Users{
     }
 
     public String getFullName() {
-        return full_Name;
+        return fullName;
     }
 
     public void setFullName(String fullName) {
-        this.full_Name = fullName;
+        this.fullName = fullName;
     }
 
     public String getUsername() {
