@@ -69,4 +69,8 @@ public class LectureCommentsService {
     public void deleteById(int commentId) {
         lectureCommentsRepository.deleteById(commentId);
     }
+
+    public List<LectureComments> findLectureCommentByUser_UserId(int userId) {
+        return lectureCommentsRepository.findCommentByUser_UserId(userId);
+    }
 }

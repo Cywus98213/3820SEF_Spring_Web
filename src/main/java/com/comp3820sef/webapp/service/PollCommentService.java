@@ -46,4 +46,9 @@ public class PollCommentService {
         pollComment.setCreateAt(new Date());
         pollCommentsRepository.save(pollComment);
     }
+
+
+    public List<PollComments> findPollCommentByUser_UserId(int userId) {
+        return pollCommentsRepository.findCommentByUser_UserId(userId);
+    }
 }

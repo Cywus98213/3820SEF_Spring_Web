@@ -1,15 +1,18 @@
 package com.comp3820sef.webapp.controller;
 
-import com.comp3820sef.webapp.entity.UserPrincipal;
-import com.comp3820sef.webapp.entity.Users;
+import com.comp3820sef.webapp.entity.*;
 import com.comp3820sef.webapp.repository.UserRepository;
+import com.comp3820sef.webapp.service.LectureCommentsService;
+import com.comp3820sef.webapp.service.PollCommentService;
 import com.comp3820sef.webapp.service.UsersService;
+import com.comp3820sef.webapp.service.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,14 +21,25 @@ import java.util.List;
 @Controller
 public class SettingController {
 
+    @Value("${teacher.passcode}")
+    private String TEACHER_PASSCODE;
+
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private UsersService usersService;
 
-    @Value("${teacher.passcode}")
-    private String TEACHER_PASSCODE;
+
+    @Autowired
+    private VoteService voteService;
+
+    @Autowired
+    private LectureCommentsService lectureCommentsService;
+
+    @Autowired
+    private PollCommentService pollCommentService;
+
 
     @GetMapping("/user/setting")
     public String setting(@AuthenticationPrincipal UserPrincipal user, Model model) {
@@ -94,5 +108,16 @@ public class SettingController {
             throw new RuntimeException("User is not teacher");
         }
         return "redirect:/user/setting";
+    }
+
+    @GetMapping("/user/setting/{userId}/history")
+    public String history(@PathVariable("userId") int userId, Model model) {
+        List<Vote> votes = voteService.findVoteByUser_UserId(userId);
+        List<LectureComments> lectureComments = lectureCommentsService.findLectureCommentByUser_UserId(userId);
+        List<PollComments> pollComments = pollCommentService.findPollCommentByUser_UserId(userId);
+        model.addAttribute("lectureComment", lectureComments);
+        model.addAttribute("pollComment", pollComments);
+        model.addAttribute("votes", votes);
+        return "history";
     }
 }

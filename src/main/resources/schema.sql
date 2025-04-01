@@ -49,12 +49,12 @@ CREATE TABLE Votes (
         poll_id INT NOT NULL,
         user_id INT NOT NULL,
         option_id INT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (poll_id) REFERENCES Polls(poll_id) ON DELETE CASCADE,
         FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
         FOREIGN KEY (option_id) REFERENCES PollOptions(option_id) ON DELETE CASCADE,
         UNIQUE (poll_id, user_id)
 );
-
 
 CREATE TABLE  PollComments (
          comment_id INT PRIMARY KEY AUTO_INCREMENT,

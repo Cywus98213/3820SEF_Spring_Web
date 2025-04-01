@@ -10,6 +10,15 @@
             --accent-color: #3b82f6;
             --danger-red: #ef4444;
             --success-green: #22c55e;
+            --text-dark: #1e293b;
+            --edit-orange: #f59e0b;
+            --input-bg: #f8fafc;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            background: #f8fafc;
+            min-height: 100vh;
         }
 
         .settings-container {
@@ -17,21 +26,22 @@
             margin: 2rem auto;
             padding: 2rem;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
         }
 
         .password-container {
             display: flex;
             align-items: center;
+            gap: 0.5rem;
         }
 
         .form-control {
-            flex: 1;
-            margin-right: 10px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
-        .btn {
-            cursor: pointer;
+
+        .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
         }
 
         .btn-back {
@@ -51,23 +61,22 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.75rem 1.5rem;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 600;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
             border: 2px solid transparent;
-            font-size: 0.95rem;
-        }
-        .btn-auth:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
-            opacity: 0.92;
         }
 
         .btn-teacher {
             background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             color: white;
-            font-size: 0.95rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-teacher:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.2);
         }
 
         .btn-action {
@@ -85,19 +94,15 @@
         }
 
         .btn-danger {
-            background: rgba(239, 68, 68, 0.1);
+            background: rgba(239, 68, 68, 0.08);
             color: var(--danger-red);
-            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.15);
         }
 
         .btn-danger:hover {
             background: var(--danger-red);
             color: white;
-        }
-
-        .btn-action:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            border-color: transparent;
         }
 
         .btn-icon {
@@ -117,18 +122,16 @@
             border: none;
             border-radius: 12px;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 3px 9px rgba(0, 0, 0, 0.03);
+            box-shadow: var(--shadow-sm);
             display: flex;
             align-items: center;
             gap: 1.25rem;
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 500;
+            margin-bottom: 0.75rem;
         }
 
         .list-group-item:hover {
             background: #eff6ff;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             box-shadow: 0 6px 18px rgba(59, 130, 246, 0.1);
         }
 
@@ -136,35 +139,60 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.75rem;
             padding-bottom: 1rem;
             border-bottom: 2px solid #f1f5f9;
         }
 
+        .section-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
         .user-card {
             background: #f8fafc;
-            border-radius: 8px;
-            padding: 1rem;
+            border-radius: 12px;
+            padding: 1.25rem;
             margin-bottom: 1rem;
             transition: all 0.2s ease;
         }
 
-        .user-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        .user-card h5 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--text-dark);
         }
 
-        .btn-action {
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            font-weight: 500;
-            transition: all 0.2s ease;
+        .user-card p {
+            font-size: 0.9rem;
+            color: #64748b;
         }
 
-        .actions {
+        .modal-header {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1.25rem 1.5rem;
+        }
+
+        .modal-title {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .modal-footer {
+            border-top: 1px solid #e2e8f0;
+            padding: 1.25rem 1.5rem;
+        }
+
+        #togglePasswordBtn {
+            border-radius: 8px;
+            width: 42px;
+            height: 42px;
             display: flex;
-            flex-direction: row;
-            gap: 0.5rem;
+            align-items: center;
+            justify-content: center;
         }
 
     </style>
@@ -177,11 +205,18 @@
             <i class="fas fa-arrow-left"></i>
             Back to Course
         </a>
-        <c:if test="${role == 'teacher'}">
-            <button class="btn-auth btn-teacher" onclick="showAddModal()">
-                <i class="fas fa-plus me-2"></i>Add User
-            </button>
-        </c:if>
+        <div class="sub-action">
+            <c:if test="${role == 'teacher'}">
+                <button class="btn-auth btn-teacher" onclick="showAddModal()">
+                    <i class="fas fa-plus me-2"></i>Add User
+                </button>
+            </c:if>
+            <a href="/user/setting/${currentUserId}/history" class="btn-action btn-back btn-auth">
+                <i class="fas fa-clock"></i>
+                <span>History</span>
+            </a>
+        </div>
+
     </div>
     <!-- Students Section -->
     <div class="mb-5">
@@ -197,7 +232,7 @@
                         <p class="text-muted mb-0">${student.email}</p>
                     </div>
                     <c:if test="${currentUserId == student.userId or role == 'teacher'}">
-                    <div class="actions">
+                        <div class="actions">
                             <button class="btn-action btn-icon me-2"
                                     onclick="showEditModal('student', '${student.userId}', '${student.fullName}',
                                             '${student.username}','${student.email}','${student.phoneNumber}'
@@ -205,15 +240,15 @@
                                 <i class="fas fa-edit"></i>
                             </button>
                             <c:if test="${role == 'teacher'}">
-                            <form action="/user/deleteUser" method="POST" >
-                                <input type="hidden" name="_method" value="DELETE">
-                                <input type="hidden" name="userId" value="${student.userId}">
-                                <button class="btn-action btn-danger btn-icon">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
+                                <form action="/user/deleteUser" method="POST" >
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="userId" value="${student.userId}">
+                                    <button class="btn-action btn-danger btn-icon">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
                             </c:if>
-                    </div>
+                        </div>
                     </c:if>
                 </div>
             </c:forEach>
@@ -221,7 +256,6 @@
     </div>
 
     <!-- Teachers Section -->
-    <c:if test="${role == 'teacher'}">
     <div class="mb-5">
         <div class="section-header">
             <h3>Teacher Management</h3>
@@ -235,26 +269,28 @@
                         <h5 class="mb-1">${teacher.fullName}</h5>
                         <p class="text-muted mb-0">${teacher.email}</p>
                     </div>
-                    <div class="actions">
-                        <button class="btn-action btn-icon me-2"
-                                onclick="showEditModal('teacher', '${teacher.userId}', '${teacher.fullName}',
-                                        '${teacher.username}','${teacher.email}','${teacher.phoneNumber}'
-                                        ,'${teacher.password}', '${teacher.roles}', '${role}')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <form action="${pageContext.request.contextPath}/user/deleteUser" method="POST">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <input type="hidden" name="userId" value="${teacher.userId}">
-                            <button class="btn-action btn-danger btn-icon">
-                                <i class="fas fa-trash"></i>
+                    <c:if test="${currentUserId == student.userId or role == 'teacher'}">
+                        <div class="actions">
+                            <button class="btn-action btn-icon me-2"
+                                    onclick="showEditModal('teacher', '${teacher.userId}', '${teacher.fullName}',
+                                            '${teacher.username}','${teacher.email}','${teacher.phoneNumber}'
+                                            ,'${teacher.password}', '${teacher.roles}', '${role}')">
+                                <i class="fas fa-edit"></i>
                             </button>
-                        </form>
-                    </div>
+                            <form action="${pageContext.request.contextPath}/user/deleteUser" method="POST">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="userId" value="${teacher.userId}">
+                                <button class="btn-action btn-danger btn-icon">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </c:if>
                 </div>
             </c:forEach>
         </div>
     </div>
-    </c:if>
+
 </div>
 
 <!-- edit modal -->

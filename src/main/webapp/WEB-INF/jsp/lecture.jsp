@@ -168,12 +168,6 @@
             background: var(--success-green);
             color: white;
         }
-
-        .btn-edit-comment {
-            color: var(--edit-orange);
-            border-color: var(--edit-orange);
-        }
-
         .btn-icon {
             padding: 0.4rem;
             border-radius: 8px;

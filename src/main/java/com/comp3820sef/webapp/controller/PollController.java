@@ -44,6 +44,7 @@ public class PollController {
     @Autowired
     private PollCommentService pollCommentService;
 
+
     @PostMapping("poll/{pollId}/vote")
     public String vote(
             @PathVariable int pollId,
@@ -116,5 +117,6 @@ public class PollController {
         pollCommentService.addPollComment(pollId, userId,commentText);
         return "redirect:/poll/" + pollId;
     }
+
 
 }

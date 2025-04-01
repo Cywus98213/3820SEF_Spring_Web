@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface LectureCommentsRepository extends JpaRepository<LectureComments, Integer> {
     List<LectureComments> findByLectureLectureId(int lectureId);
+
+    List<LectureComments> findCommentByUser_UserId(int userId);
 }

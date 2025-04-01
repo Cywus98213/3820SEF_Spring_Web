@@ -61,6 +61,13 @@
             border-radius: 2px;
         }
 
+        .subCon{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         .btn-back {
             display: inline-flex;
             align-items: center;
@@ -293,16 +300,16 @@
 </head>
 <body>
 <div class="container">
-    <!-- Navigation -->
+
     <a href="/" class="btn-back">
         <i class="fas fa-arrow-left"></i>
         <span>Back</span>
     </a>
 
-    <!-- Poll Content -->
+
     <h1>${poll.pollQuestion}</h1>
 
-    <!-- Voting Interface -->
+
     <form action="/poll/${poll.pollId}/vote" method="post">
         <div class="options-container">
             <c:forEach items="${options}" var="option">
@@ -322,7 +329,6 @@
         </div>
     </form>
 
-    <!-- Edit and Status -->
     <div class="text-center">
         <c:if test="${userVote != null}">
             <button class="btn-edit" onclick="enableVotingButtons()">

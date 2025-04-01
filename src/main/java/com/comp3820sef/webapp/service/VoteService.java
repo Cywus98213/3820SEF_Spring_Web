@@ -11,6 +11,8 @@ import com.comp3820sef.webapp.repository.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,8 +55,7 @@ public class VoteService {
             pollOptionRepository.save(newOption);
 
         } else {
-            // create a new vote
-            Vote vote = new Vote();
+
 
             Polls pollsEntity = pollsRepository.findById(pollId)
                     .orElseThrow(() -> new IllegalArgumentException("Poll not found"));
@@ -63,15 +64,20 @@ public class VoteService {
             PollOptions optionEntity = pollOptionRepository.findById(optionId)
                     .orElseThrow(() -> new IllegalArgumentException("Option not found"));
 
-            // Set relationships
+            Vote vote = new Vote();
             vote.setPolls(pollsEntity);
             vote.setUser(userEntity);
             vote.setOption(optionEntity);
+            vote.setCreateAt(new Date());
             voteRepository.save(vote);
 
             // Increase vote count for the selected option
             optionEntity.setVoteCount(optionEntity.getVoteCount() + 1);
             pollOptionRepository.save(optionEntity);
         }
+    }
+
+    public List<Vote> findVoteByUser_UserId(int userId) {
+        return voteRepository.findVoteByUser_UserId(userId);
     }
 }

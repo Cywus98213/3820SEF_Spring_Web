@@ -10,4 +10,6 @@ import java.util.List;
 public interface PollCommentsRepository extends JpaRepository<PollComments, Integer> {
 
     List<PollComments> findPollCommentsByPoll_PollId(int pollPollId);
+
+    List<PollComments> findCommentByUser_UserId(int userId);
 }
