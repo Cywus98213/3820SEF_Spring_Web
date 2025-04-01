@@ -369,6 +369,9 @@
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <div class="d-flex align-items-center gap-2">
                                     <strong>${comment.user.username}</strong>
+                                    <c:if test="${comment.user.roles == 'teacher'}">
+                                        <i class="fas fa-check-circle" style="color: var(--success-green); font-size: 0.9em;"></i>
+                                    </c:if>
                                 </div>
                                 <small class="text-muted">${comment.createAt}</small>
                             </div>
