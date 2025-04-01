@@ -346,7 +346,7 @@
         </div>
 
         <!-- Add Comment Form -->
-        <form id="commentForm" action="/addPollComment" method="POST" class="comment-form" style="display: none;">
+        <form id="commentForm" action="/poll/addPollComment" method="POST" class="comment-form" style="display: none;">
             <div class="mb-3">
                 <textarea class="form-control" name="commentText" id="commentText" rows="4"
                           placeholder="Write your comment here..." required></textarea>

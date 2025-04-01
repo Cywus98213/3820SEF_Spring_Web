@@ -52,7 +52,7 @@ CREATE TABLE Votes (
         FOREIGN KEY (poll_id) REFERENCES Polls(poll_id) ON DELETE CASCADE,
         FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
         FOREIGN KEY (option_id) REFERENCES PollOptions(option_id) ON DELETE CASCADE,
-        UNIQUE (poll_id, user_id) -- Ensure each user can vote only once per poll
+        UNIQUE (poll_id, user_id)
 );
 
 

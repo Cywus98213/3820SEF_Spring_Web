@@ -45,7 +45,7 @@ public class LectureController {
         return "lecture";
     }
 
-    @PostMapping("/deleteLecture")
+    @PostMapping("/lecture/deleteLecture")
     public String deleteLecture(@RequestParam("lectureId") int lectureId, @RequestParam String _method) {
         try {
             if ("DELETE".equalsIgnoreCase(_method)){
@@ -57,7 +57,7 @@ public class LectureController {
         return "redirect:/";
     }
 
-    @PostMapping("/addLecture")
+    @PostMapping("/lecture/addLecture")
     public String addLecture(@RequestParam("lectureTitle") String lectureTitle){
 
         try {
@@ -68,7 +68,7 @@ public class LectureController {
         return "redirect:/";
     }
 
-    @PostMapping("/uploadFile")
+    @PostMapping("/lecture/uploadFile")
     public String uploadFile(@RequestParam("lectureFile") MultipartFile file,@RequestParam("lectureId") int lectureId){
         String fileName = file.getOriginalFilename();
 
@@ -77,7 +77,7 @@ public class LectureController {
         return "redirect:/lecture/" + lectureId;
     }
 
-    @PostMapping("/deleteNote")
+    @PostMapping("/lecture/deleteNote")
     public String deleteNote(@RequestParam("noteId") int noteId,
                              @RequestParam("lectureId") int lectureId,
                              @RequestParam String _method){

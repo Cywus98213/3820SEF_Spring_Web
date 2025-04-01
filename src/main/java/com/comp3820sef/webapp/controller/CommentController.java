@@ -15,7 +15,7 @@ public class CommentController {
     private LectureCommentsService lectureCommentsService;
 
 
-    @PostMapping("/addcomment")
+    @PostMapping("/lecture/addcomment")
     public String addComment(@RequestParam("lectureId") int lectureId, @RequestParam("commentText") String commentText, @AuthenticationPrincipal UserPrincipal user) {
         int userId = user.getUserId();
         lectureCommentsService.addComment(commentText,lectureId, userId);
@@ -23,7 +23,7 @@ public class CommentController {
     }
 
 
-    @PostMapping("/deleteComment")
+    @PostMapping("/lecture/deleteComment")
     public String deleteComment(@RequestParam String _method,
                                 @RequestParam("lectureId") int lectureId,
                                 @RequestParam("commentId") int commentId

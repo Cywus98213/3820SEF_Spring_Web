@@ -329,7 +329,7 @@
     <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
         <h2 style="margin: 0; flex: 1;">COMP3820SEF: Design and Development</h2>
         <c:if test="${role != null}">
-            <a class="settings-button text-decoration-none" href="/setting" >
+            <a class="settings-button text-decoration-none" href="/user/setting" >
                 <i class="fas fa-cog"></i>
             </a>
         </c:if>
@@ -376,7 +376,7 @@
             </button>
         </c:if>
     </div>
-    <form id="lectureForm" action="/addLecture" method="POST" class="form" enctype="multipart/form-data" style="display: none;">
+    <form id="lectureForm" action="/lecture/addLecture" method="POST" class="form" enctype="multipart/form-data" style="display: none;">
         <!-- Lecture Title -->
         <div class="mb-3">
             <input type="text" class="form-control" name="lectureTitle" id="lectureTitle"
@@ -400,7 +400,7 @@
                                 ${lecture.lectureTitle}
                         </a>
                         <c:if test="${role == 'teacher'}">
-                            <form action="/deleteLecture" method="POST" class="d-inline">
+                            <form action="/lecture/deleteLecture" method="POST" class="d-inline">
                                 <input type="hidden" name="lectureId" value="${lecture.lectureId}">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <button type="submit" class="btn-action btn-danger btn-icon" title="Delete Lecture">
@@ -429,7 +429,7 @@
             </button>
         </c:if>
     </div>
-    <form id="pollForm" action="/addPoll" method="POST" class="form" enctype="multipart/form-data" style="display: none;">
+    <form id="pollForm" action="/poll/addPoll" method="POST" class="form" enctype="multipart/form-data" style="display: none;">
         <!-- Poll Title -->
         <div class="mb-3">
             <input type="text" class="form-control" name="pollTitle" id="pollTitle"
@@ -479,7 +479,7 @@
                                 ${poll.pollQuestion}
                         </a>
                         <c:if test="${role == 'teacher'}">
-                            <form action="/deletePoll" method="POST" class="d-inline">
+                            <form action="/poll/deletePoll" method="POST" class="d-inline">
                                 <input type="hidden" name="pollId" value="${poll.pollId}">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <button type="submit" class="btn-action btn-danger btn-icon" title="Delete Poll">

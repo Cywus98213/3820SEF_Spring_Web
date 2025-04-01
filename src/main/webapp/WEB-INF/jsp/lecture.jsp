@@ -328,7 +328,7 @@
         </div>
 
         <!-- File Upload -->
-        <form id="fileForm" action="/uploadFile" method="POST" class="form" enctype="multipart/form-data" style="display: none;">
+        <form id="fileForm" action="/lecture/uploadFile" method="POST" class="form" enctype="multipart/form-data" style="display: none;">
             <div class="mb-3">
                 <input type="file" class="form-control" name="lectureFile" id="lectureFile" required>
                 <small class="form-text text-muted">Upload lecture materials (PDF, DOCX, etc.)</small>
@@ -353,7 +353,7 @@
                                     ${lectureNote.lectureNoteTitle}
                             </a>
                             <c:if test="${role == 'teacher'}">
-                                <form action="/deleteNote" method="POST" class="d-inline">
+                                <form action="/lecture/deleteNote" method="POST" class="d-inline">
                                     <input type="hidden" name="lectureId" value="${lecture.lectureId}">
                                     <input type="hidden" name="noteId" value="${lectureNote.lectureNoteId}">
                                     <input type="hidden" name="_method" value="DELETE">
@@ -386,7 +386,7 @@
         </div>
 
         <!-- Add Comment Form -->
-        <form id="commentForm" action="/addcomment" method="POST" class="comment-form" style="display: none;">
+        <form id="commentForm" action="/lecture/addcomment" method="POST" class="comment-form" style="display: none;">
             <div class="mb-3">
                 <textarea class="form-control" name="commentText" id="commentText" rows="4"
                           placeholder="Write your comment here..." required></textarea>
@@ -414,7 +414,7 @@
                                     <!-- Teacher Only -->
                                     <!-- delete comment -->
                                     <c:if test="${role == 'teacher'}">
-                                        <form action="/deleteComment" method="POST" class="d-inline">
+                                        <form action="/lecture/deleteComment" method="POST" class="d-inline">
                                             <input type="hidden" name="lectureId" value="${lecture.lectureId}">
                                             <input type="hidden" name="commentId" value="${comment.lectureCommentId}">
                                             <input type="hidden" name="_method" value="DELETE">

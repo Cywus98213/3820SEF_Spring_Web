@@ -52,15 +52,15 @@ public class PollController {
         int userId = user.getUserId();
 
         voteService.submitVote(pollId, userId, optionId);
-        return "redirect:/vote-success";
+        return "redirect:/poll/vote-success";
     }
 
-    @GetMapping("/vote-success")
+    @GetMapping("/poll/vote-success")
     public String voteSuccess() {
         return "voteSuccess";
     }
 
-    @PostMapping("/deletePoll")
+    @PostMapping("/poll/deletePoll")
     public String deletePoll(@RequestParam("pollId") int pollId, @RequestParam String _method) {
         try {
             if ("DELETE".equalsIgnoreCase(_method)){
@@ -72,7 +72,7 @@ public class PollController {
         return "redirect:/";
     }
 
-    @PostMapping("/addPoll")
+    @PostMapping("/poll/addPoll")
     public String addPoll(@RequestParam("option1") String option1,
                           @RequestParam("option2") String option2,
                           @RequestParam("option2") String option3,
@@ -110,7 +110,7 @@ public class PollController {
         return "polls";
     }
 
-    @PostMapping("/addPollComment")
+    @PostMapping("/poll/addPollComment")
     public String addPollComment(@RequestParam("pollId") int pollId, @RequestParam("commentText") String commentText, @AuthenticationPrincipal UserPrincipal user) {
         int userId = user.getUserId();
         pollCommentService.addPollComment(pollId, userId,commentText);

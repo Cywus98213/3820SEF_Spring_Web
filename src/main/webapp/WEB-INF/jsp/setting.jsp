@@ -201,11 +201,11 @@
                             <button class="btn-action btn-icon me-2"
                                     onclick="showEditModal('student', '${student.userId}', '${student.fullName}',
                                             '${student.username}','${student.email}','${student.phoneNumber}'
-                                            ,'${student.password}', '${student.roles}')">
+                                            ,'${student.password}', '${student.roles}', '${role}')">
                                 <i class="fas fa-edit"></i>
                             </button>
                             <c:if test="${role == 'teacher'}">
-                            <form action="/deleteUser" method="POST" >
+                            <form action="/user/deleteUser" method="POST" >
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="userId" value="${student.userId}">
                                 <button class="btn-action btn-danger btn-icon">
@@ -229,6 +229,7 @@
 
         <div class="user-list">
             <c:forEach var="teacher" items="${teachers}">
+
                 <div class="user-card d-flex justify-content-between align-items-center list-group-item">
                     <div>
                         <h5 class="mb-1">${teacher.fullName}</h5>
@@ -238,10 +239,10 @@
                         <button class="btn-action btn-icon me-2"
                                 onclick="showEditModal('teacher', '${teacher.userId}', '${teacher.fullName}',
                                         '${teacher.username}','${teacher.email}','${teacher.phoneNumber}'
-                                        ,'${teacher.password}', '${teacher.roles}')">
+                                        ,'${teacher.password}', '${teacher.roles}', '${role}')">
                             <i class="fas fa-edit"></i>
                         </button>
-                        <form action="/deleteUser" method="POST">
+                        <form action="${pageContext.request.contextPath}/user/deleteUser" method="POST">
                             <input type="hidden" name="_method" value="DELETE">
                             <input type="hidden" name="userId" value="${teacher.userId}">
                             <button class="btn-action btn-danger btn-icon">
@@ -264,7 +265,7 @@
                 <h5 class="modal-title" id="modalTitle"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form id="userForm" method="POST" action="/userAction">
+            <form id="userForm" method="POST" action="/user/userAction">
                 <div class="modal-body">
                     <input type="hidden" id="formType" name="formType">
                     <input type="hidden" id="userId" name="userId" value="${userId}">
@@ -323,8 +324,8 @@
         new bootstrap.Modal(document.getElementById('userModal')).show();
     }
 
-    function showEditModal(userType, userId, fullName, username, email, phoneNumber, password, role) {
-        console.log(userType, userId, fullName, username, email, phoneNumber, password, role)
+    function showEditModal(userType, userId, fullName, username, email, phoneNumber, password, role, userRole) {
+        console.log(userType, userId, fullName, username, email, phoneNumber, password, role, userRole)
         document.getElementById('modalTitle').textContent = `Edit ` + userType;
         document.getElementById('userId').value = userId;
         document.getElementById('username').value = username;
@@ -334,7 +335,7 @@
         document.getElementById('role').value = role;
         document.getElementById('phoneNumber').value = phoneNumber;
         document.getElementById('formType').value = "edit";
-        if (role !== 'teacher'){
+        if (userRole === 'student'){
             document.getElementById('roleField').style.display = 'none';
             document.getElementById('usernameInput').style.display = 'none';
         }

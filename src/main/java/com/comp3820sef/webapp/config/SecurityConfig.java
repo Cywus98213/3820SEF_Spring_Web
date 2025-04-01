@@ -25,8 +25,9 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/lecture/**", "/poll/**", "/lecture/","/poll/", "/setting",
-                                "/setting/**").authenticated()
+                                "/setting/**", "/user/**").authenticated()
                         .anyRequest().permitAll()
+
 
                 )
                 .csrf(AbstractHttpConfigurer::disable)

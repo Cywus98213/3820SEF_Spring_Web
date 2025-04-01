@@ -27,7 +27,7 @@ public class SettingController {
     @Value("${teacher.passcode}")
     private String TEACHER_PASSCODE;
 
-    @GetMapping("/setting")
+    @GetMapping("/user/setting")
     public String setting(@AuthenticationPrincipal UserPrincipal user, Model model) {
         List<Users> users = userRepository.findAll();
 
@@ -49,7 +49,7 @@ public class SettingController {
         return "setting";
     }
 
-    @PostMapping("/userAction")
+    @PostMapping("/user/userAction")
     public String userAction(@AuthenticationPrincipal UserPrincipal user,
                            @RequestParam("formType") String formType,
                            @RequestParam("userId") int userId,
@@ -82,17 +82,17 @@ public class SettingController {
             throw new RuntimeException(e);
         }
 
-        return "redirect:/setting";
+        return "redirect:/user/setting";
 
     }
 
-    @PostMapping("/deleteUser")
+    @PostMapping("/user/deleteUser")
     public String deleteUser(@AuthenticationPrincipal UserPrincipal user, @RequestParam("userId") int userId) {
         if (user.getUserRole().equalsIgnoreCase("teacher")) {
             userRepository.deleteById(userId);
         } else {
             throw new RuntimeException("User is not teacher");
         }
-        return "redirect:/setting";
+        return "redirect:/user/setting";
     }
 }
