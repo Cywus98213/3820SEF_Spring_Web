@@ -1,7 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Lecture Material</title>
+    <title><spring:message code="lecture.title" arguments="${lecture.lectureTitle}"/></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -277,22 +281,24 @@
         }
     </style>
     <script>
-        // Toggle main comment form
+        // 切换评论表单
         function toggleCommentForm() {
             const form = document.getElementById('commentForm');
             const btn = document.getElementById('addCommentBtn');
             form.style.display = form.style.display === 'none' ? 'block' : 'none';
             btn.innerHTML = form.style.display === 'none'
-                ? '<i class="fas fa-plus me-2"></i>Add Comment'
-                : '<i class="fas fa-times me-2"></i>Cancel';
+                ? `<i class="fas fa-plus me-2"></i><spring:message code="lecture.add.comment"/>`
+                : `<i class="fas fa-times me-2"></i><spring:message code="general.cancel"/>`;
         }
+
+        // 切换文件上传表单
         function toggleUploadForm() {
             const form = document.getElementById('fileForm');
             const btn = document.getElementById('uploadBtn');
             form.style.display = form.style.display === 'none' ? 'block' : 'none';
             btn.innerHTML = form.style.display === 'none'
-                ? '<i class="fas fa-plus me-2"></i>Upload'
-                : '<i class="fas fa-times me-2"></i>Cancel';
+                ? `<i class="fas fa-cloud-upload me-2"></i><spring:message code="lecture.upload"/>`
+                : `<i class="fas fa-times me-2"></i><spring:message code="general.cancel"/>`;
         }
     </script>
 </head>
@@ -301,7 +307,7 @@
     <div class="header-actions">
         <a href="/" class="btn-action btn-back">
             <i class="fas fa-arrow-left"></i>
-            Back to Lectures
+            <spring:message code="lecture.back"/>
         </a>
     </div>
 
@@ -311,31 +317,31 @@
         <div class="section-heading">
             <div class="d-flex align-items-center gap-2">
                 <i class="fas fa-book-open"></i>
-                Notes
+                <spring:message code="lecture.notes"/>
             </div>
             <c:if test="${role == 'teacher'}">
                 <button class="btn-action btn-primary btn-teacher" id="uploadBtn" onclick="toggleUploadForm()">
                     <i class="fas fa-cloud-upload me-2"></i>
-                    Upload Files
+                    <spring:message code="lecture.upload"/>
                 </button>
             </c:if>
         </div>
 
-        <!-- File Upload -->
+        <!-- 文件上传表单 -->
         <form id="fileForm" action="/lecture/uploadFile" method="POST" class="form" enctype="multipart/form-data" style="display: none;">
             <div class="mb-3">
                 <input type="file" class="form-control" name="lectureFile" id="lectureFile" required>
-                <small class="form-text text-muted">Upload lecture materials (PDF, DOCX, etc.)</small>
+                <small class="form-text text-muted"><spring:message code="lecture.upload.hint"/></small>
             </div>
 
-            <!-- Submit Button -->
+            <!-- 提交按钮 -->
             <div class="d-flex justify-content-end gap-2">
                 <button type="submit" class="btn-auth btn-success">
                     <i class="fas fa-check me-2"></i>
-                    Upload
+                    <spring:message code="lecture.upload.button"/>
                 </button>
             </div>
-            <input type="hidden" name="lectureId" value=${lecture.lectureId}>
+            <input type="hidden" name="lectureId" value="${lecture.lectureId}">
         </form>
         <c:choose>
             <c:when test="${not empty lectureNotes}">
@@ -351,7 +357,7 @@
                                     <input type="hidden" name="lectureId" value="${lecture.lectureId}">
                                     <input type="hidden" name="noteId" value="${lectureNote.lectureNoteId}">
                                     <input type="hidden" name="_method" value="DELETE">
-                                    <button type="submit" class="btn-action btn-danger btn-icon" title="Delete Note">
+                                    <button type="submit" class="btn-action btn-danger btn-icon" title="<spring:message code="lecture.delete.note"/>">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
@@ -361,44 +367,43 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <div class="no-content">No lecture materials available</div>
+                <div class="no-content"><spring:message code="lecture.no.materials"/></div>
             </c:otherwise>
         </c:choose>
     </div>
 
-    <!-- Comments Section -->
+    <!-- 评论部分 -->
     <div class="comments-section">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="mb-0">
                 <i class="fas fa-comments me-2"></i>
-                Discussion
+                <spring:message code="lecture.discussion"/>
             </h3>
             <button class="btn-action btn-primary" id="addCommentBtn" onclick="toggleCommentForm()">
                 <i class="fas fa-plus me-2"></i>
-                Add Comment
+                <spring:message code="lecture.add.comment"/>
             </button>
         </div>
 
-        <!-- Add Comment Form -->
+        <!-- 添加评论表单 -->
         <form id="commentForm" action="/lecture/addcomment" method="POST" class="comment-form" style="display: none;">
             <div class="mb-3">
                 <textarea class="form-control" name="commentText" id="commentText" rows="4"
-                          placeholder="Write your comment here..." required></textarea>
+                          placeholder="<spring:message code="lecture.comment.placeholder"/>" required></textarea>
             </div>
             <div class="d-flex justify-content-end gap-2">
                 <button type="submit" class="btn-action btn-success-green">
                     <i class="fas fa-check me-2"></i>
-                    Post Comment
+                    <spring:message code="lecture.post.comment"/>
                 </button>
             </div>
             <input type="hidden" name="lectureId" value="${lecture.lectureId}">
         </form>
 
-        <!-- Comments List -->
+        <!-- 评论列表 -->
         <c:choose>
             <c:when test="${not empty lectureComments}">
                 <div class="comment-list">
-
                     <c:forEach var="comment" items="${lectureComments}">
                         <div class="comment">
                             <div class="d-flex justify-content-between align-items-center mb-2">
@@ -407,15 +412,12 @@
                                     <c:if test="${comment.user.roles == 'teacher'}">
                                         <i class="fas fa-check-circle" style="color: var(--success-green); font-size: 0.9em;"></i>
                                     </c:if>
-
-                                    <!-- Teacher Only -->
-                                    <!-- delete comment -->
                                     <c:if test="${role == 'teacher'}">
                                         <form action="/lecture/deleteComment" method="POST" class="d-inline">
                                             <input type="hidden" name="lectureId" value="${lecture.lectureId}">
                                             <input type="hidden" name="commentId" value="${comment.lectureCommentId}">
                                             <input type="hidden" name="_method" value="DELETE">
-                                            <button type="submit" class="btn-action btn-danger btn-icon" title="Delete comment">
+                                            <button type="submit" class="btn-action btn-danger btn-icon" title="<spring:message code="lecture.delete.comment"/>">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
@@ -423,7 +425,6 @@
                                 </div>
                                 <small class="text-muted">${comment.createAt}</small>
                             </div>
-                            <!-- Original Comment Text -->
                             <div>
                                 <p class="mb-0" id="comment-text-${comment.lectureCommentId}">
                                         ${comment.commentText}
@@ -434,7 +435,7 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <div class="no-content">No comments yet. Be the first to share your thoughts!</div>
+                <div class="no-content"><spring:message code="lecture.no.comments"/></div>
             </c:otherwise>
         </c:choose>
     </div>

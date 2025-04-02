@@ -1,7 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Poll</title>
+    <title><spring:message code="poll.title" arguments="${poll.pollQuestion}"/></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -293,22 +297,19 @@
             const btn = document.getElementById('addCommentBtn');
             form.style.display = form.style.display === 'none' ? 'block' : 'none';
             btn.innerHTML = form.style.display === 'none'
-                ? '<i class="fas fa-plus me-2"></i>Add Comment'
-                : '<i class="fas fa-times me-2"></i>Cancel';
+                ? `<i class="fas fa-plus me-2"></i><spring:message code="poll.add.comment"/>`
+                : `<i class="fas fa-times me-2"></i><spring:message code="general.cancel"/>`;
         }
     </script>
 </head>
 <body>
 <div class="container">
-
     <a href="/" class="btn-back">
         <i class="fas fa-arrow-left"></i>
-        <span>Back</span>
+        <span><spring:message code="poll.back"/></span>
     </a>
 
-
     <h1>${poll.pollQuestion}</h1>
-
 
     <form action="/poll/${poll.pollId}/vote" method="post">
         <div class="options-container">
@@ -333,40 +334,40 @@
         <c:if test="${userVote != null}">
             <button class="btn-edit" onclick="enableVotingButtons()">
                 <i class="fas fa-edit me-2"></i>
-                Edit Vote
+                <spring:message code="poll.edit.vote"/>
             </button>
         </c:if>
     </div>
 
-    <!-- Comments Section -->
+    <!-- 评论部分 -->
     <div class="comments-section">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="mb-0">
                 <i class="fas fa-comments me-2"></i>
-                Discussion
+                <spring:message code="poll.discussion"/>
             </h3>
             <button class="btn-action btn-primary" id="addCommentBtn" onclick="toggleCommentForm()">
                 <i class="fas fa-plus me-2"></i>
-                Add Comment
+                <spring:message code="poll.add.comment"/>
             </button>
         </div>
 
-        <!-- Add Comment Form -->
+        <!-- 添加评论表单 -->
         <form id="commentForm" action="/poll/addPollComment" method="POST" class="comment-form" style="display: none;">
             <div class="mb-3">
                 <textarea class="form-control" name="commentText" id="commentText" rows="4"
-                          placeholder="Write your comment here..." required></textarea>
+                          placeholder="<spring:message code="poll.comment.placeholder"/>" required></textarea>
             </div>
             <div class="d-flex justify-content-end gap-2">
                 <button type="submit" class="btn-action btn-success-green">
                     <i class="fas fa-check me-2"></i>
-                    Post Comment
+                    <spring:message code="poll.post.comment"/>
                 </button>
             </div>
             <input type="hidden" name="pollId" value="${pollId}">
         </form>
 
-        <!-- Comments List -->
+        <!-- 评论列表 -->
         <c:choose>
             <c:when test="${not empty pollComments}">
                 <div class="comment-list">
@@ -391,7 +392,7 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <div class="no-content">No comments yet. Be the first to share your thoughts!</div>
+                <div class="no-content"><spring:message code="poll.no.comments"/></div>
             </c:otherwise>
         </c:choose>
     </div>

@@ -1,7 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>COMP3820SEF: Design and Development</title>
+    <title><spring:message code="course.title"/></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -310,16 +314,16 @@
             const btn = document.getElementById('addLectureBtn');
             form.style.display = form.style.display === 'none' ? 'block' : 'none';
             btn.innerHTML = form.style.display === 'none'
-                ? '<i class="fas fa-plus me-2"></i>Add Lecture'
-                : '<i class="fas fa-times me-2"></i>Cancel';
+                ? `<i class="fas fa-plus me-2"></i><spring:message code="course.lecture.add"/>`
+                : `<i class="fas fa-times me-2"></i><spring:message code="general.cancel"/>`;
         }
         function togglePollForm() {
             const form = document.getElementById('pollForm');
             const btn = document.getElementById('addPollBtn');
             form.style.display = form.style.display === 'none' ? 'block' : 'none';
             btn.innerHTML = form.style.display === 'none'
-                ? '<i class="fas fa-plus me-2"></i>Add Poll'
-                : '<i class="fas fa-times me-2"></i>Cancel';
+                ? `<i class="fas fa-plus me-2"></i><spring:message code="course.poll.add"/>`
+                : `<i class="fas fa-times me-2"></i><spring:message code="general.cancel"/>`;
         }
     </script>
 </head>
@@ -327,20 +331,19 @@
 <div class="container">
     <!-- Course Title -->
     <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
-        <h2 style="margin: 0; flex: 1;">COMP3820SEF: Design and Development</h2>
+        <h2 style="margin: 0; flex: 1;"><spring:message code="course.title"/></h2>
         <c:if test="${role != null}">
-            <a class="settings-button text-decoration-none" href="/user/setting" >
+            <a class="settings-button text-decoration-none" href="/user/setting">
                 <i class="fas fa-cog"></i>
             </a>
         </c:if>
     </div>
 
-
     <!-- Welcome Message -->
     <c:if test="${pageContext.request.userPrincipal != null}">
         <div class="welcome-message">
             <i class="fas fa-user-check"></i>
-            Welcome back, ${pageContext.request.userPrincipal.name}!
+            <spring:message code="course.welcome" arguments="${pageContext.request.userPrincipal.name}"/>
         </div>
     </c:if>
 
@@ -351,14 +354,14 @@
                 <form action="/logout" method="POST">
                     <button type="submit" class="btn-auth btn-logout">
                         <i class="fas fa-sign-out-alt"></i>
-                        Log Out
+                        <spring:message code="course.logout"/>
                     </button>
                 </form>
             </c:when>
             <c:otherwise>
                 <a href="/login" class="btn-auth btn-login">
                     <i class="fas fa-sign-in-alt"></i>
-                    Log In
+                    <spring:message code="course.login"/>
                 </a>
             </c:otherwise>
         </c:choose>
@@ -368,25 +371,23 @@
     <div class="section-heading">
         <div class="d-flex align-items-center gap-2">
             <i class="fas fa-book-open"></i>
-            Lectures
+            <spring:message code="course.lectures"/>
         </div>
         <c:if test="${role == 'teacher'}">
-            <button class="btn-auth btn-teacher" id="addLectureBtn"  onclick="toggleLectureForm()">
-                <i class="fas fa-plus"></i> Add Lecture
+            <button class="btn-auth btn-teacher" id="addLectureBtn" onclick="toggleLectureForm()">
+                <i class="fas fa-plus"></i> <spring:message code="course.lecture.add"/>
             </button>
         </c:if>
     </div>
     <form id="lectureForm" action="/lecture/addLecture" method="POST" class="form" enctype="multipart/form-data" style="display: none;">
-        <!-- Lecture Title -->
         <div class="mb-3">
             <input type="text" class="form-control" name="lectureTitle" id="lectureTitle"
-                   placeholder="Enter lecture title" required>
+                   placeholder="<spring:message code="course.lecture.title.placeholder"/>" required>
         </div>
-        <!-- Submit Button -->
         <div class="d-flex justify-content-end gap-2">
             <button type="submit" class="btn-auth btn-success">
                 <i class="fas fa-check me-2"></i>
-                Post Lecture
+                <spring:message code="course.lecture.submit"/>
             </button>
         </div>
     </form>
@@ -403,7 +404,7 @@
                             <form action="/lecture/deleteLecture" method="POST" class="d-inline">
                                 <input type="hidden" name="lectureId" value="${lecture.lectureId}">
                                 <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class="btn-action btn-danger btn-icon" title="Delete Lecture">
+                                <button type="submit" class="btn-action btn-danger btn-icon" title="<spring:message code="course.lecture.delete"/>">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
@@ -413,7 +414,7 @@
             </div>
         </c:when>
         <c:otherwise>
-            <p class="no-content">No lectures available</p>
+            <p class="no-content"><spring:message code="course.lecture.empty"/></p>
         </c:otherwise>
     </c:choose>
 
@@ -421,50 +422,39 @@
     <div class="section-heading">
         <div class="d-flex align-items-center gap-2">
             <i class="fas fa-poll"></i>
-            Polls
+            <spring:message code="course.polls"/>
         </div>
         <c:if test="${role == 'teacher'}">
             <button class="btn-auth btn-teacher" id="addPollBtn" onclick="togglePollForm()">
-                <i class="fas fa-plus"></i> Add Poll
+                <i class="fas fa-plus"></i> <spring:message code="course.poll.add"/>
             </button>
         </c:if>
     </div>
     <form id="pollForm" action="/poll/addPoll" method="POST" class="form" enctype="multipart/form-data" style="display: none;">
-        <!-- Poll Title -->
         <div class="mb-3">
             <input type="text" class="form-control" name="pollTitle" id="pollTitle"
-                   placeholder="Enter Your Poll Title Here" required>
+                   placeholder="<spring:message code="course.poll.title.placeholder"/>" required>
         </div>
-
-        <!-- Option 1 -->
         <div class="mb-3">
             <input type="text" class="form-control" name="option1" id="option1"
-                   placeholder="Option 1" required>
+                   placeholder="<spring:message code="course.poll.option" arguments="1"/>" required>
         </div>
-
-        <!-- Option 2 -->
         <div class="mb-3">
             <input type="text" class="form-control" name="option2" id="option2"
-                   placeholder="Option 2" required>
+                   placeholder="<spring:message code="course.poll.option" arguments="2"/>" required>
         </div>
-
-        <!-- Option 3 -->
         <div class="mb-3">
             <input type="text" class="form-control" name="option3" id="option3"
-                   placeholder="Option 3" required>
+                   placeholder="<spring:message code="course.poll.option" arguments="3"/>" required>
         </div>
-
-        <!-- Option 4 -->
         <div class="mb-3">
             <input type="text" class="form-control" name="option4" id="option4"
-                   placeholder="Option 4" required>
+                   placeholder="<spring:message code="course.poll.option" arguments="4"/>" required>
         </div>
-
-        <!-- Submit Button -->
         <div class="d-flex justify-content-end gap-2">
             <button type="submit" class="btn-auth btn-success">
                 <i class="fas fa-check me-2"></i>
-                Add Poll
+                <spring:message code="course.poll.submit"/>
             </button>
         </div>
     </form>
@@ -482,7 +472,7 @@
                             <form action="/poll/deletePoll" method="POST" class="d-inline">
                                 <input type="hidden" name="pollId" value="${poll.pollId}">
                                 <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class="btn-action btn-danger btn-icon" title="Delete Poll">
+                                <button type="submit" class="btn-action btn-danger btn-icon" title="<spring:message code="course.poll.delete"/>">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
@@ -492,9 +482,10 @@
             </div>
         </c:when>
         <c:otherwise>
-            <p class="no-content">No polls available</p>
+            <p class="no-content"><spring:message code="course.poll.empty"/></p>
         </c:otherwise>
     </c:choose>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

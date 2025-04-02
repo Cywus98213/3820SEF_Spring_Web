@@ -1,7 +1,10 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Login</title>
+    <title><spring:message code="login.title"/></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -152,8 +155,8 @@
 <body>
 <div class="auth-card">
     <div class="auth-header">
-        <h1 class="auth-title">Welcome Back</h1>
-        <p>Sign in to continue</p>
+        <h1 class="auth-title"><spring:message code="login.welcome"/></h1>
+        <p><spring:message code="login.subtitle"/></p>
     </div>
 
     <form action="/login" method="POST">
@@ -161,31 +164,31 @@
             <i class="fas fa-user input-icon"></i>
             <input type="text" class="form-control"
                    id="username" name="username"
-                   placeholder="Enter your username" required>
+                   placeholder="<spring:message code="login.username.placeholder"/>" required>
         </div>
 
         <div class="mb-4 position-relative">
             <i class="fas fa-lock input-icon"></i>
             <input type="password" class="form-control"
                    id="password" name="password"
-                   placeholder="Enter your password" required>
+                   placeholder="<spring:message code="login.password.placeholder"/>" required>
         </div>
 
         <div class="auth-options">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="remember-me" name="remember-me">
-                <label class="form-check-label" for="remember-me">Remember me</label>
+                <label class="form-check-label" for="remember-me"><spring:message code="login.remember.me"/></label>
             </div>
-            <a href="#forgot-password" class="text-decoration-none">Forgot password?</a>
+            <a href="#forgot-password" class="text-decoration-none"><spring:message code="login.forgot.password"/></a>
         </div>
 
         <button type="submit" class="btn-auth">
             <i class="fas fa-sign-in-alt"></i>
-            Sign In
+            <spring:message code="login.button"/>
         </button>
 
         <div class="auth-links">
-            <p class="mt-3">Don't have an account? <a href="/register">Create account</a></p>
+            <p class="mt-3"><spring:message code="login.no.account"/> <a href="/register"><spring:message code="login.create.account"/></a></p>
         </div>
     </form>
 </div>

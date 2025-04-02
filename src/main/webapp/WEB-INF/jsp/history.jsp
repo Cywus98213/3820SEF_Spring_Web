@@ -1,7 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Vote History</title>
+    <title><spring:message code="history.title"/></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -153,10 +157,10 @@
 <div class="container">
     <a href="/user/setting" class="btn-back">
         <i class="fas fa-arrow-left"></i>
-        <span>Back</span>
+        <span><spring:message code="history.back"/></span>
     </a>
 
-    <h1>Vote History:</h1>
+    <h1><spring:message code="history.vote.title"/></h1>
 
     <c:choose>
         <c:when test="${not empty votes}">
@@ -178,11 +182,11 @@
             </div>
         </c:when>
         <c:otherwise>
-            <div class="no-content">No votes recorded yet for this poll</div>
+            <div class="no-content"><spring:message code="history.vote.empty"/></div>
         </c:otherwise>
     </c:choose>
 
-    <h1>Lecture Comments History:</h1>
+    <h1><spring:message code="history.lecture.comments.title"/></h1>
 
     <c:choose>
         <c:when test="${not empty lectureComment}">
@@ -196,7 +200,7 @@
                             <small class="text-muted">${comment.createAt}</small>
                         </div>
                         <div class="vote-option">
-                            <i class="fas fa-vote-yea me-2"></i>
+                            <i class="fas fa-comment me-2"></i>
                                 ${comment.commentText}
                         </div>
                     </div>
@@ -204,11 +208,11 @@
             </div>
         </c:when>
         <c:otherwise>
-            <div class="no-content">No comments recorded</div>
+            <div class="no-content"><spring:message code="history.comments.empty"/></div>
         </c:otherwise>
     </c:choose>
 
-    <h1>Vote Comments History:</h1>
+    <h1><spring:message code="history.poll.comments.title"/></h1>
 
     <c:choose>
         <c:when test="${not empty pollComment}">
@@ -222,7 +226,7 @@
                             <small class="text-muted">${comment.createAt}</small>
                         </div>
                         <div class="vote-option">
-                            <i class="fas fa-vote-yea me-2"></i>
+                            <i class="fas fa-comment me-2"></i>
                                 ${comment.commentText}
                         </div>
                     </div>
@@ -230,11 +234,9 @@
             </div>
         </c:when>
         <c:otherwise>
-            <div class="no-content">No comments recorded</div>
+            <div class="no-content"><spring:message code="history.comments.empty"/></div>
         </c:otherwise>
     </c:choose>
-
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

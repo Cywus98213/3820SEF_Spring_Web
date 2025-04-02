@@ -1,7 +1,12 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <head>
-    <title>Register</title>
+    <title><spring:message code="register.title"/></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -181,101 +186,101 @@
 <body>
 <div class="auth-card">
     <div class="auth-header">
-        <h1 class="auth-title">Create Account</h1>
-        <p>Join as Student or Teacher</p>
+        <h1 class="auth-title"><spring:message code="register.welcome"/></h1>
+        <p><spring:message code="register.subtitle"/></p>
     </div>
 
     <form action="/register" method="POST">
-        <!-- Role Selection -->
+        <!-- 角色選擇 -->
         <div class="role-selection">
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="roles" id="studentRole" value="student" checked>
                 <label class="form-check-label" for="studentRole">
-                    <i class="fas fa-user-graduate"></i> Student
+                    <i class="fas fa-user-graduate"></i> <spring:message code="register.role.student"/>
                 </label>
             </div>
             <div class="form-check mt-2">
                 <input class="form-check-input" type="radio" name="roles" id="teacherRole" value="teacher">
                 <label class="form-check-label" for="teacherRole">
-                    <i class="fas fa-chalkboard-teacher"></i> Teacher
+                    <i class="fas fa-chalkboard-teacher"></i> <spring:message code="register.role.teacher"/>
                 </label>
             </div>
         </div>
 
-        <!-- Teacher Passcode -->
+        <!-- 教師驗證碼 -->
         <div id="teacherPasscode" class="mb-4 position-relative">
             <i class="fas fa-key input-icon"></i>
             <input type="text" class="form-control"
                    id="passcode" name="passcode"
-                   placeholder="Enter teacher passcode">
+                   placeholder="<spring:message code="register.passcode.placeholder"/>">
         </div>
 
-        <!-- Full Name -->
+        <!-- 全名 -->
         <div class="mb-4 position-relative">
             <i class="fas fa-id-card input-icon"></i>
             <input type="text" class="form-control"
                    id="full_name" name="full_name"
-                   placeholder="Full name" required>
+                   placeholder="<spring:message code="register.fullname.placeholder"/>" required>
         </div>
 
-        <!-- Username -->
+        <!-- 用戶名 -->
         <div class="mb-4 position-relative">
             <i class="fas fa-user input-icon"></i>
             <input type="text" class="form-control"
                    id="username" name="username"
-                   placeholder="Choose username" required>
+                   placeholder="<spring:message code="register.username.placeholder"/>" required>
         </div>
 
-        <!-- Email -->
+        <!-- 電子郵件 -->
         <div class="mb-4 position-relative">
             <i class="fas fa-envelope input-icon"></i>
             <input type="email" class="form-control"
                    id="email" name="email"
-                   placeholder="Email address" required>
+                   placeholder="<spring:message code="register.email.placeholder"/>" required>
         </div>
 
-        <!-- Phone Number -->
+        <!-- 電話號碼 -->
         <div class="mb-4 position-relative">
             <i class="fas fa-phone input-icon"></i>
             <input type="tel" class="form-control"
                    id="phone_number" name="phone_number"
-                   placeholder="Phone number"
+                   placeholder="<spring:message code="register.phone.placeholder"/>"
                    pattern="\d{8}">
         </div>
 
-        <!-- Password -->
+        <!-- 密碼 -->
         <div class="mb-4 position-relative">
             <i class="fas fa-lock input-icon"></i>
             <input type="password" class="form-control"
                    id="password" name="password"
-                   placeholder="Create password" required>
+                   placeholder="<spring:message code="register.password.placeholder"/>" required>
         </div>
 
-        <!-- Confirm Password -->
+        <!-- 確認密碼 -->
         <div class="mb-4 position-relative">
             <i class="fas fa-check-circle input-icon"></i>
             <input type="password" class="form-control"
                    id="confirm_password" name="confirm_password"
-                   placeholder="Confirm password" required>
+                   placeholder="<spring:message code="register.confirm_password.placeholder"/>" required>
         </div>
 
         <button type="submit" class="btn-auth">
             <i class="fas fa-user-plus"></i>
-            Create Account
+            <spring:message code="register.button"/>
         </button>
 
         <div class="auth-links">
-            <p class="mt-3">Already registered? <a href="/login">Sign in here</a></p>
+            <p class="mt-3"><spring:message code="register.have.account"/> <a href="/login"><spring:message code="register.signin"/></a></p>
         </div>
     </form>
 </div>
 
 <script>
-    // Toggle teacher passcode field
+    // 切換教師驗證碼欄位
     document.addEventListener('DOMContentLoaded', function() {
         const roleRadios = document.querySelectorAll('input[name="roles"]');
         const passcodeField = document.getElementById('teacherPasscode');
-        const passcodeInput = document.getElementById('teacher_code');
+        const passcodeInput = document.getElementById('passcode');
 
         function togglePasscodeField() {
             if (document.getElementById('teacherRole').checked) {
@@ -291,7 +296,7 @@
             radio.addEventListener('change', togglePasscodeField);
         });
 
-        // Initial check
+        // 初始檢查
         togglePasscodeField();
     });
 </script>

@@ -1,9 +1,13 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vote Successful</title>
+    <title><spring:message code="vote.success.title"/></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -59,9 +63,11 @@
 </head>
 <body>
 <div class="container">
-    <h1>Vote Submitted Successfully!</h1>
-    <p>Thank you for participating in the poll. Your response has been recorded.</p>
-    <a href="/" class="btn-home">Go Back to Home</a>
+    <h1><spring:message code="vote.success.title"/></h1>
+    <p><spring:message code="vote.success.message"/></p>
+    <a href="/" class="btn-home">
+        <spring:message code="vote.success.button"/>
+    </a>
 </div>
 </body>
 </html>
