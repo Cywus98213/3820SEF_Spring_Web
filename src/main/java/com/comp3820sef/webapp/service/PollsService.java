@@ -18,8 +18,18 @@ public class PollsService {
         return pollsRepository.findAll();
     }
 
-    public Polls getPollById(int pollId) {
-        return pollsRepository.findById(pollId).orElse(null);
+    public void deletePollById (int pollId) {
+        try {
+            pollsRepository.deleteById(pollId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Polls addPoll(String pollTitle) {
+        Polls polls = new Polls();
+        polls.setPollQuestion(pollTitle);
+        return pollsRepository.save(polls);
     }
 
 }

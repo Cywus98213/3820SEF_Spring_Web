@@ -1,7 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %><!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Poll</title>
+    <title><spring:message code="poll.title" arguments="${poll.pollQuestion}"/></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -10,7 +14,10 @@
             --primary-color: #2563eb;
             --accent-color: #3b82f6;
             --text-dark: #1e293b;
+            --danger-red: #ef4444;
             --success-green: #22c55e;
+            --edit-orange: #f59e0b;
+            --input-bg: #f8fafc;
         }
 
         body {
@@ -22,11 +29,11 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             background: rgba(255, 255, 255, 0.98);
             border-radius: 20px;
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-            padding: 3rem;
+            padding: 3.5rem;
             margin: 0 auto;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -39,50 +46,57 @@
         h1 {
             color: var(--text-dark);
             font-weight: 800;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             position: relative;
             padding-bottom: 1.5rem;
             font-size: 2.25rem;
-            line-height: 1.2;
+            text-align: center;
         }
 
         h1::after {
             content: '';
             position: absolute;
             bottom: 0;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
             width: 80px;
             height: 3px;
             background: linear-gradient(90deg, var(--primary-color) 0%, rgba(59,130,246,0.2) 100%);
             border-radius: 2px;
         }
 
+        .subCon{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         .btn-back {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: transparent;
-            color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
             font-weight: 600;
-            padding: 0.75rem 1.25rem;
-            border: 2px solid var(--primary-color);
+            padding: 0.75rem 1.5rem;
             border-radius: 8px;
             text-decoration: none;
             transition: all 0.2s ease;
             margin-bottom: 2rem;
+            border: 2px solid transparent;
         }
 
         .btn-back:hover {
-            background: var(--primary-color);
-            color: white;
-            transform: translateY(-1.5px);
+            background: var(--accent-color);
+            transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
         }
 
         .options-container {
             display: flex;
             flex-direction: column;
-            gap: 1.25rem;
+            gap: 1rem;
             margin: 2.5rem 0;
         }
 
@@ -90,10 +104,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem;
+            padding: 1.25rem 1.5rem;
             background: #f8fafc;
             border: 2px solid transparent;
-            border-radius: 14px;
+            border-radius: 12px;
             color: var(--text-dark);
             font-weight: 500;
             text-align: left;
@@ -105,16 +119,15 @@
 
         .option-btn:hover:not(:disabled) {
             background: #eff6ff;
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             border-color: var(--primary-color);
-            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.12);
+            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.1);
         }
 
         .option-btn:disabled {
             background: #f1f5f9;
             color: #94a3b8;
             cursor: not-allowed;
-            transform: none;
         }
 
         .vote-count {
@@ -135,21 +148,20 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: transparent;
-            color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
             font-weight: 600;
             padding: 0.75rem 1.5rem;
-            border: 2px solid var(--primary-color);
             border-radius: 8px;
             transition: all 0.2s ease;
             text-decoration: none;
             margin-top: 2rem;
+            border: 2px solid transparent;
         }
 
         .btn-edit:hover {
-            background: var(--primary-color);
-            color: white;
-            transform: translateY(-1.5px);
+            background: var(--accent-color);
+            transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
         }
 
@@ -162,11 +174,89 @@
             transition: width 0.8s ease;
         }
 
-        .total-votes {
-            text-align: center;
+        .comments-section {
+            margin-top: 2.5rem;
+            background: #f8fafc;
+            border-radius: 14px;
+            padding: 1.5rem 2rem;
+        }
+
+        .comment-form {
+            background: white;
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+        }
+
+        .comment-form textarea {
+            background: var(--input-bg);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            resize: vertical;
+        }
+
+        .comment-form textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .comment {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+            transition: all 0.2s ease;
+        }
+
+        .comment:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .no-content {
             color: #64748b;
-            font-size: 0.9em;
-            margin-top: 1.5rem;
+            font-style: italic;
+            padding: 1.5rem;
+            text-align: center;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 2px dashed #e2e8f0;
+            margin: 1rem 0;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: var(--text-dark);
+        }
+
+        .btn-action:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            border-color: transparent;
+        }
+
+        .btn-success-green {
+            background: var(--success-green);
+            color: white;
         }
 
         @media (max-width: 768px) {
@@ -177,10 +267,11 @@
 
             h1 {
                 font-size: 1.75rem;
+                margin-bottom: 1.5rem;
             }
 
             .option-btn {
-                padding: 1.25rem;
+                padding: 1rem;
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 0.75rem;
@@ -192,29 +283,34 @@
         }
     </style>
     <script>
-        // JavaScript to enable buttons when the Edit Vote button is clicked
         function enableVotingButtons() {
             const votingButtons = document.querySelectorAll('.option-btn');
             votingButtons.forEach(button => {
-                button.disabled = false; // Enable all vote buttons
+                button.disabled = false;
             });
             const editButton = document.querySelector('.btn-edit');
-            editButton.style.display = 'none'; // Hide the Edit Vote button
+            editButton.style.display = 'none';
+        }
+
+        function toggleCommentForm() {
+            const form = document.getElementById('commentForm');
+            const btn = document.getElementById('addCommentBtn');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            btn.innerHTML = form.style.display === 'none'
+                ? `<i class="fas fa-plus me-2"></i><spring:message code="poll.add.comment"/>`
+                : `<i class="fas fa-times me-2"></i><spring:message code="general.cancel"/>`;
         }
     </script>
 </head>
 <body>
 <div class="container">
-    <!-- Navigation -->
     <a href="/" class="btn-back">
         <i class="fas fa-arrow-left"></i>
-        <span>Back to Polls</span>
+        <span><spring:message code="poll.back"/></span>
     </a>
 
-    <!-- Poll Content -->
     <h1>${poll.pollQuestion}</h1>
 
-    <!-- Voting Interface -->
     <form action="/poll/${poll.pollId}/vote" method="post">
         <div class="options-container">
             <c:forEach items="${options}" var="option">
@@ -234,12 +330,74 @@
         </div>
     </form>
 
-    <!-- Edit and Status -->
     <div class="text-center">
         <c:if test="${userVote != null}">
-            <button class="btn-edit" onclick="enableVotingButtons()">Edit Vote</button>
+            <button class="btn-edit" onclick="enableVotingButtons()">
+                <i class="fas fa-edit me-2"></i>
+                <spring:message code="poll.edit.vote"/>
+            </button>
         </c:if>
     </div>
+
+    <!-- 评论部分 -->
+    <div class="comments-section">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="mb-0">
+                <i class="fas fa-comments me-2"></i>
+                <spring:message code="poll.discussion"/>
+            </h3>
+            <button class="btn-action btn-primary" id="addCommentBtn" onclick="toggleCommentForm()">
+                <i class="fas fa-plus me-2"></i>
+                <spring:message code="poll.add.comment"/>
+            </button>
+        </div>
+
+        <!-- 添加评论表单 -->
+        <form id="commentForm" action="/poll/addPollComment" method="POST" class="comment-form" style="display: none;">
+            <div class="mb-3">
+                <textarea class="form-control" name="commentText" id="commentText" rows="4"
+                          placeholder="<spring:message code="poll.comment.placeholder"/>" required></textarea>
+            </div>
+            <div class="d-flex justify-content-end gap-2">
+                <button type="submit" class="btn-action btn-success-green">
+                    <i class="fas fa-check me-2"></i>
+                    <spring:message code="poll.post.comment"/>
+                </button>
+            </div>
+            <input type="hidden" name="pollId" value="${pollId}">
+        </form>
+
+        <!-- 评论列表 -->
+        <c:choose>
+            <c:when test="${not empty pollComments}">
+                <div class="comment-list">
+                    <c:forEach var="comment" items="${pollComments}">
+                        <div class="comment">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <strong>${comment.user.username}</strong>
+                                    <c:if test="${comment.user.roles == 'teacher'}">
+                                        <i class="fas fa-check-circle" style="color: var(--success-green); font-size: 0.9em;"></i>
+                                    </c:if>
+                                </div>
+                                <small class="text-muted">${comment.createAt}</small>
+                            </div>
+                            <div>
+                                <p class="mb-0" id="comment-text-${comment.pollCommentId}">
+                                        ${comment.commentText}
+                                </p>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="no-content"><spring:message code="poll.no.comments"/></div>
+            </c:otherwise>
+        </c:choose>
+    </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

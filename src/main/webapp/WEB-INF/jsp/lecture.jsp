@@ -1,45 +1,83 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Lecture Material</title>
+    <title><spring:message code="lecture.title" arguments="${lecture.lectureTitle}"/></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-blue: #2563eb;
-            --accent-blue: #3b82f6;
+            --primary-color: #2563eb;
+            --accent-color: #3b82f6;
             --text-dark: #1e293b;
+            --danger-red: #ef4444;
+            --success-green: #22c55e;
+            --edit-orange: #f59e0b;
+            --input-bg: #f8fafc;
+        }
+
+        .btn-auth {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: 2px solid transparent;
+            font-size: 0.95rem;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-green), #16a34a);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+        }
+
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+            opacity: 0.92;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            background: linear-gradient(135deg, #f0f9ff, #ffffff);
             min-height: 100vh;
-            padding: 2rem 0;
+            padding: 2rem;
+            color: var(--text-dark);
         }
 
         .container {
             max-width: 900px;
             background: rgba(255, 255, 255, 0.98);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            padding: 3.5rem;
             margin: 0 auto;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .container:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
             color: var(--text-dark);
             font-weight: 800;
-            text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             position: relative;
             padding-bottom: 1.5rem;
+            font-size: 2.25rem;
+            text-align: center;
         }
 
         h1::after {
@@ -48,171 +86,361 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 120px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-blue), var(--accent-blue));
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color) 0%, rgba(59,130,246,0.2) 100%);
             border-radius: 2px;
         }
 
-        h3 {
-            color: var(--text-dark);
-            font-weight: 700;
-            margin: 2rem 0 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid #e2e8f0;
+        .btn-teacher {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            font-size: 0.95rem;
         }
 
-        .list-group-item {
-            border: none;
-            border-radius: 12px;
-            margin-bottom: 0.75rem;
-            padding: 1.25rem;
-            background: #f8fafc;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        .section-heading {
+            color: var(--text-dark);
+            font-weight: 700;
+            margin: 2rem 0 1rem;
+            padding: 1rem 0;
             display: flex;
             align-items: center;
             gap: 1rem;
+            font-size: 1.25rem;
+            justify-content: space-between;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .list-group-item {
+            padding: 1.25rem 1.5rem;
+            background: #f8fafc;
+            border: none;
+            border-radius: 12px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 3px 9px rgba(0, 0, 0, 0.03);
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
         }
 
         .list-group-item:hover {
             background: #eff6ff;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.1);
         }
 
-        .list-group-item a {
-            color: var(--text-dark);
-            font-weight: 500;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .list-group-item:hover a {
-            color: var(--primary-blue);
-        }
-
-        .comments-section {
-            background: #f8fafc;
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-top: 2rem;
-        }
-
-        .comment {
-            background: white;
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
             border-radius: 8px;
-            padding: 1.25rem;
-            margin-bottom: 1.25rem;
-            position: relative;
-            border-left: 4px solid var(--accent-blue);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: var(--text-dark);
+        }
+
+        .btn-action:hover {
+            transform: translateY(-1px);
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
         }
 
-        .comment strong {
-            color: var(--primary-blue);
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .comment p {
-            color: #64748b;
-            margin: 0.5rem 0 0;
-            line-height: 1.6;
-        }
-
-        .text-muted {
-            color: #94a3b8 !important;
-            font-size: 0.875rem;
-        }
-
-        .no-comments {
-            color: #64748b;
-            font-style: italic;
-            padding: 2rem;
-            text-align: center;
-            background: #f8fafc;
-            border-radius: 8px;
-            border: 2px dashed #e2e8f0;
-        }
-
-        .download-icon {
-            font-size: 1.25rem;
-            color: var(--primary-blue);
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
         }
 
         .btn-back {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--primary-blue);
+            background: var(--primary-color);
             color: white;
-            padding: 10px 20px;
-            font-size: 1rem;
-            font-weight: 500;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.2s ease;
-            text-decoration: none;
         }
 
-        .btn-back:hover {
-            background: var(--accent-blue);
+        .btn-success-green {
+            background: var(--success-green);
+            color: white;
+        }
+        .btn-icon {
+            padding: 0.4rem;
+            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-red);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .btn-danger:hover {
+            background: var(--danger-red);
+            color: white;
+        }
+
+        .list-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+
+        .comments-section {
+            margin-top: 2.5rem;
+            background: #f8fafc;
+            border-radius: 14px;
+            padding: 1.5rem 2rem;
+        }
+
+        .comment-form {
+            background: white;
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+        }
+
+        .comment-form textarea,
+        .edit-comment-form textarea {
+            background: var(--input-bg);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            resize: vertical;
+        }
+
+        .comment-form textarea:focus,
+        .edit-comment-form textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .comment {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+            transition: all 0.2s ease;
+        }
+
+        .comment:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .no-content {
+            color: #64748b;
+            font-style: italic;
+            padding: 1.5rem;
+            text-align: center;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 2px dashed #e2e8f0;
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem;
+                border-radius: 16px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .comments-section {
+                padding: 1.25rem;
+            }
         }
     </style>
+    <script>
+        // 切换评论表单
+        function toggleCommentForm() {
+            const form = document.getElementById('commentForm');
+            const btn = document.getElementById('addCommentBtn');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            btn.innerHTML = form.style.display === 'none'
+                ? `<i class="fas fa-plus me-2"></i><spring:message code="lecture.add.comment"/>`
+                : `<i class="fas fa-times me-2"></i><spring:message code="general.cancel"/>`;
+        }
+
+        // 切换文件上传表单
+        function toggleUploadForm() {
+            const form = document.getElementById('fileForm');
+            const btn = document.getElementById('uploadBtn');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            btn.innerHTML = form.style.display === 'none'
+                ? `<i class="fas fa-cloud-upload me-2"></i><spring:message code="lecture.upload"/>`
+                : `<i class="fas fa-times me-2"></i><spring:message code="general.cancel"/>`;
+        }
+    </script>
 </head>
 <body>
 <div class="container">
-    <!-- Go Back Button -->
-    <div class="mb-3">
-        <a href="/" class="btn-back">
-            <i class="fas fa-arrow-left me-2"></i> Go Back
+    <div class="header-actions">
+        <a href="/" class="btn-action btn-back">
+            <i class="fas fa-arrow-left"></i>
+            <spring:message code="lecture.back"/>
         </a>
     </div>
 
-    <!-- Lecture Title -->
     <h1>${lecture.lectureTitle}</h1>
 
-    <!-- Lecture Notes Section -->
-    <h3>📁 Lecture Materials</h3>
-    <c:choose>
-        <c:when test="${not empty lectureNotes}">
-            <ul class="list-group mb-4">
-                <c:forEach var="lectureNote" items="${lectureNotes}">
-                    <li class="list-group-item">
-                        <i class="fas fa-file-download download-icon"></i>
-                        <a href="${lectureNote.lectureNoteLink}">
-                                ${lectureNote.lectureNoteLink}
-                        </a>
-                    </li>
-                </c:forEach>
-            </ul>
-        </c:when>
-        <c:otherwise>
-            <p class="no-comments">No lecture materials available</p>
-        </c:otherwise>
-    </c:choose>
-
-    <!-- Comments Section -->
-    <h3>💬 Discussion</h3>
-    <c:choose>
-        <c:when test="${not empty lectureComments}">
-            <div class="comments-section">
-                <c:forEach var="comment" items="${lectureComments}">
-                    <div class="comment">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <strong>${comment.user.username}</strong>
-                            <span class="text-muted">${comment.createAt}</span>
-                        </div>
-                        <p>${comment.commentText}</p>
-                    </div>
-                </c:forEach>
+    <div class="materials-section">
+        <div class="section-heading">
+            <div class="d-flex align-items-center gap-2">
+                <i class="fas fa-book-open"></i>
+                <spring:message code="lecture.notes"/>
             </div>
-        </c:when>
-        <c:otherwise>
-            <p class="no-comments">Be the first to comment</p>
-        </c:otherwise>
-    </c:choose>
+            <c:if test="${role == 'teacher'}">
+                <button class="btn-action btn-primary btn-teacher" id="uploadBtn" onclick="toggleUploadForm()">
+                    <i class="fas fa-cloud-upload me-2"></i>
+                    <spring:message code="lecture.upload"/>
+                </button>
+            </c:if>
+        </div>
+
+        <!-- 文件上传表单 -->
+        <form id="fileForm" action="/lecture/uploadFile" method="POST" class="form" enctype="multipart/form-data" style="display: none;">
+            <div class="mb-3">
+                <input type="file" class="form-control" name="lectureFile" id="lectureFile" required>
+                <small class="form-text text-muted"><spring:message code="lecture.upload.hint"/></small>
+            </div>
+
+            <!-- 提交按钮 -->
+            <div class="d-flex justify-content-end gap-2">
+                <button type="submit" class="btn-auth btn-success">
+                    <i class="fas fa-check me-2"></i>
+                    <spring:message code="lecture.upload.button"/>
+                </button>
+            </div>
+            <input type="hidden" name="lectureId" value="${lecture.lectureId}">
+        </form>
+        <c:choose>
+            <c:when test="${not empty lectureNotes}">
+                <div class="list-group">
+                    <c:forEach var="lectureNote" items="${lectureNotes}">
+                        <div class="list-group-item">
+                            <i class="fas fa-file-download"></i>
+                            <a href="${lectureNote.lectureNoteLink}" class="text-decoration-none flex-grow-1">
+                                    ${lectureNote.lectureNoteTitle}
+                            </a>
+                            <c:if test="${role == 'teacher'}">
+                                <form action="/lecture/deleteNote" method="POST" class="d-inline">
+                                    <input type="hidden" name="lectureId" value="${lecture.lectureId}">
+                                    <input type="hidden" name="noteId" value="${lectureNote.lectureNoteId}">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" class="btn-action btn-danger btn-icon" title="<spring:message code="lecture.delete.note"/>">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </c:if>
+                        </div>
+                    </c:forEach>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="no-content"><spring:message code="lecture.no.materials"/></div>
+            </c:otherwise>
+        </c:choose>
+    </div>
+
+    <!-- 评论部分 -->
+    <div class="comments-section">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="mb-0">
+                <i class="fas fa-comments me-2"></i>
+                <spring:message code="lecture.discussion"/>
+            </h3>
+            <button class="btn-action btn-primary" id="addCommentBtn" onclick="toggleCommentForm()">
+                <i class="fas fa-plus me-2"></i>
+                <spring:message code="lecture.add.comment"/>
+            </button>
+        </div>
+
+        <!-- 添加评论表单 -->
+        <form id="commentForm" action="/lecture/addcomment" method="POST" class="comment-form" style="display: none;">
+            <div class="mb-3">
+                <textarea class="form-control" name="commentText" id="commentText" rows="4"
+                          placeholder="<spring:message code="lecture.comment.placeholder"/>" required></textarea>
+            </div>
+            <div class="d-flex justify-content-end gap-2">
+                <button type="submit" class="btn-action btn-success-green">
+                    <i class="fas fa-check me-2"></i>
+                    <spring:message code="lecture.post.comment"/>
+                </button>
+            </div>
+            <input type="hidden" name="lectureId" value="${lecture.lectureId}">
+        </form>
+
+        <!-- 评论列表 -->
+        <c:choose>
+            <c:when test="${not empty lectureComments}">
+                <div class="comment-list">
+                    <c:forEach var="comment" items="${lectureComments}">
+                        <div class="comment">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <strong>${comment.user.username}</strong>
+                                    <c:if test="${comment.user.roles == 'teacher'}">
+                                        <i class="fas fa-check-circle" style="color: var(--success-green); font-size: 0.9em;"></i>
+                                    </c:if>
+                                    <c:if test="${role == 'teacher'}">
+                                        <form action="/lecture/deleteComment" method="POST" class="d-inline">
+                                            <input type="hidden" name="lectureId" value="${lecture.lectureId}">
+                                            <input type="hidden" name="commentId" value="${comment.lectureCommentId}">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button type="submit" class="btn-action btn-danger btn-icon" title="<spring:message code="lecture.delete.comment"/>">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </c:if>
+                                </div>
+                                <small class="text-muted">${comment.createAt}</small>
+                            </div>
+                            <div>
+                                <p class="mb-0" id="comment-text-${comment.lectureCommentId}">
+                                        ${comment.commentText}
+                                </p>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="no-content"><spring:message code="lecture.no.comments"/></div>
+            </c:otherwise>
+        </c:choose>
+    </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -8,13 +8,20 @@ public class Users{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", unique = true, nullable = false)
     private int userId;
 
+    @Column(name = "full_name", nullable = false)
     private String fullName;
+    @Column(name = "username", nullable = false)
     private String username;
+    @Column(name = "password", nullable = false)
     private String password;
+    @Column(name = "email", nullable = false)
     private String email;
+    @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
+    @Column(name = "roles", nullable = false)
     private String roles;
 
 

@@ -2,6 +2,8 @@ package com.comp3820sef.webapp.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "VOTES")
 public class Vote {
@@ -22,6 +24,16 @@ public class Vote {
     @JoinColumn(name = "option_id", nullable = false)
     private PollOptions option;
 
+    @Column(name = "created_at", nullable = false)
+    private Date createAt;
+
+    public Date getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
+    }
 
     public int getVoteId() {
         return voteId;

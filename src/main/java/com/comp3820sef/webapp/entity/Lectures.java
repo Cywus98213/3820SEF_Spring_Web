@@ -9,9 +9,8 @@ public class Lectures {
     @Column(name = "LECTURE_ID", nullable = false)
     private int lectureId;
 
+    @Column(name = "lecture_title")
     private String lectureTitle;
-    private String lectureNotesLink;
-    private String lectureComment;
 
     public int getLectureId() {
         return lectureId;
@@ -19,22 +18,6 @@ public class Lectures {
 
     public void setLectureId(int lectureId) {
         this.lectureId = lectureId;
-    }
-
-    public String getLectureComment() {
-        return lectureComment;
-    }
-
-    public void setLectureComment(String lectureComment) {
-        this.lectureComment = lectureComment;
-    }
-
-    public String getLectureNotesLink() {
-        return lectureNotesLink;
-    }
-
-    public void setLectureNotesLink(String lectureNotesLink) {
-        this.lectureNotesLink = lectureNotesLink;
     }
 
     public String getLectureTitle() {

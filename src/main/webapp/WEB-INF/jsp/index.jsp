@@ -1,7 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>COMP3820SEF: Design and Development</title>
+    <title><spring:message code="course.title"/></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,6 +16,7 @@
             --text-dark: #1e293b;
             --danger-red: #ef4444;
             --success-green: #22c55e;
+            --border-color: #e2e8f0;
         }
 
         body {
@@ -20,6 +25,7 @@
             min-height: 100vh;
             padding: 2rem;
             color: var(--text-dark);
+            line-height: 1.6;
         }
 
         .container {
@@ -28,8 +34,28 @@
             border-radius: 20px;
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
             padding: 3rem;
-            margin: 0 auto;
+            margin: 3rem auto;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .settings-button {
+            padding: 0.6rem 0.8rem;
+            margin-bottom: 2em;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .settings-button:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .container:hover {
@@ -45,6 +71,7 @@
             padding-bottom: 1.5rem;
             font-size: 2.25rem;
             text-align: center;
+            letter-spacing: -0.5px;
         }
 
         h2::after {
@@ -60,18 +87,17 @@
         }
 
         .welcome-message {
-            display: inline-flex;
+            display: flex;
             align-items: center;
             gap: 1rem;
             font-weight: 600;
             color: var(--text-dark);
-            padding: 1rem 2rem;
+            padding: 1.25rem 2rem;
             border-radius: 12px;
             background: rgba(59, 130, 246, 0.1);
-            border: 2px solid rgba(59, 130, 246, 0.2);
-            margin-bottom: 2rem;
-            width: 100%;
-            justify-content: center;
+            border: 2px solid rgba(59, 130, 246, 0.15);
+            margin: 2rem 0;
+            font-size: 1.1rem;
         }
 
         .auth-buttons {
@@ -91,7 +117,14 @@
             transition: all 0.2s ease;
             text-decoration: none;
             border: 2px solid transparent;
+            font-size: 0.95rem;
         }
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+            opacity: 0.92;
+        }
+
 
         .btn-logout {
             background: linear-gradient(135deg, var(--danger-red), #dc2626);
@@ -103,21 +136,65 @@
             color: white;
         }
 
-        .btn-auth:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
-            opacity: 0.9;
-        }
+
 
         .section-heading {
             color: var(--text-dark);
             font-weight: 700;
-            margin: 2.5rem 0 1.5rem;
-            padding-bottom: 0.75rem;
+            margin: 3rem 0 1.5rem;
+            padding: 0.75rem 0;
             display: flex;
             align-items: center;
             gap: 1rem;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
+            justify-content: space-between;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .form {
+            background: white;
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .form input,
+        .edit-comment-form textarea {
+            background: #f8fafc;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            resize: vertical;
+            font-size: 0.95rem;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: var(--text-dark);
+        }
+
+        .btn-action:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .lecture-form input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            outline: none;
         }
 
         .list-group {
@@ -127,30 +204,36 @@
             margin-top: 1.5rem;
         }
 
+        .btn-icon {
+            padding: 0.4rem;
+            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
         .list-group-item {
-            padding: 1.5rem;
+            padding: 1.25rem 1.5rem;
             background: #f8fafc;
             border: none;
-            border-radius: 14px;
+            border-radius: 12px;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 3px 9px rgba(0, 0, 0, 0.03);
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.25rem;
             text-decoration: none;
             color: var(--text-dark);
+            font-weight: 500;
         }
 
         .list-group-item:hover {
             background: #eff6ff;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.12);
-        }
-
-        .list-group-item i {
-            width: 30px;
-            text-align: center;
-            font-size: 1.2rem;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.1);
         }
 
         .no-content {
@@ -161,34 +244,106 @@
             background: #f8fafc;
             border-radius: 12px;
             border: 2px dashed #e2e8f0;
+            margin: 2rem 0;
+        }
+
+        .btn-teacher {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-green), #16a34a);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-red);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .btn-danger:hover {
+            background: var(--danger-red);
+            color: white;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-dark);
+            font-size: 0.95rem;
         }
 
         @media (max-width: 768px) {
             .container {
-                padding: 2rem;
+                padding: 1.5rem;
+                margin: 1rem auto;
                 border-radius: 16px;
             }
 
             h2 {
                 font-size: 1.75rem;
+                margin-bottom: 2rem;
             }
 
             .auth-buttons {
                 flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .section-heading {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .welcome-message {
+                padding: 1rem;
+                font-size: 1rem;
             }
         }
     </style>
+    <script>
+        function toggleLectureForm() {
+            const form = document.getElementById('lectureForm');
+            const btn = document.getElementById('addLectureBtn');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            btn.innerHTML = form.style.display === 'none'
+                ? `<i class="fas fa-plus me-2"></i><spring:message code="course.lecture.add"/>`
+                : `<i class="fas fa-times me-2"></i><spring:message code="general.cancel"/>`;
+        }
+        function togglePollForm() {
+            const form = document.getElementById('pollForm');
+            const btn = document.getElementById('addPollBtn');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            btn.innerHTML = form.style.display === 'none'
+                ? `<i class="fas fa-plus me-2"></i><spring:message code="course.poll.add"/>`
+                : `<i class="fas fa-times me-2"></i><spring:message code="general.cancel"/>`;
+        }
+    </script>
 </head>
 <body>
 <div class="container">
     <!-- Course Title -->
-    <h2>COMP3820SEF: Design and Development</h2>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+        <h2 style="margin: 0; flex: 1;"><spring:message code="course.title"/></h2>
+        <c:if test="${role != null}">
+            <a class="settings-button text-decoration-none" href="/user/setting">
+                <i class="fas fa-cog"></i>
+            </a>
+        </c:if>
+    </div>
 
     <!-- Welcome Message -->
     <c:if test="${pageContext.request.userPrincipal != null}">
         <div class="welcome-message">
             <i class="fas fa-user-check"></i>
-            Welcome back, ${pageContext.request.userPrincipal.name}!
+            <spring:message code="course.welcome" arguments="${pageContext.request.userPrincipal.name}"/>
         </div>
     </c:if>
 
@@ -199,60 +354,138 @@
                 <form action="/logout" method="POST">
                     <button type="submit" class="btn-auth btn-logout">
                         <i class="fas fa-sign-out-alt"></i>
-                        Log Out
+                        <spring:message code="course.logout"/>
                     </button>
                 </form>
             </c:when>
             <c:otherwise>
                 <a href="/login" class="btn-auth btn-login">
                     <i class="fas fa-sign-in-alt"></i>
-                    Log In
+                    <spring:message code="course.login"/>
                 </a>
             </c:otherwise>
         </c:choose>
     </div>
 
-    <!-- Lectures Section -->
-    <h3 class="section-heading">
-        <i class="fas fa-book-open"></i>
-        Lectures
-    </h3>
+    <!-- Lecture Section -->
+    <div class="section-heading">
+        <div class="d-flex align-items-center gap-2">
+            <i class="fas fa-book-open"></i>
+            <spring:message code="course.lectures"/>
+        </div>
+        <c:if test="${role == 'teacher'}">
+            <button class="btn-auth btn-teacher" id="addLectureBtn" onclick="toggleLectureForm()">
+                <i class="fas fa-plus"></i> <spring:message code="course.lecture.add"/>
+            </button>
+        </c:if>
+    </div>
+    <form id="lectureForm" action="/lecture/addLecture" method="POST" class="form" enctype="multipart/form-data" style="display: none;">
+        <div class="mb-3">
+            <input type="text" class="form-control" name="lectureTitle" id="lectureTitle"
+                   placeholder="<spring:message code="course.lecture.title.placeholder"/>" required>
+        </div>
+        <div class="d-flex justify-content-end gap-2">
+            <button type="submit" class="btn-auth btn-success">
+                <i class="fas fa-check me-2"></i>
+                <spring:message code="course.lecture.submit"/>
+            </button>
+        </div>
+    </form>
     <c:choose>
         <c:when test="${not empty lectures}">
             <div class="list-group">
                 <c:forEach var="lecture" items="${lectures}">
-                    <a href="/lecture/${lecture.lectureId}" class="list-group-item">
-                        <i class="fas fa-file-alt"></i>
-                            ${lecture.lectureTitle}
-                    </a>
+                    <div class="list-group-item">
+                        <a href="/lecture/${lecture.lectureId}" class="flex-grow-1 text-decoration-none">
+                            <i class="fas fa-file-alt"></i>
+                                ${lecture.lectureTitle}
+                        </a>
+                        <c:if test="${role == 'teacher'}">
+                            <form action="/lecture/deleteLecture" method="POST" class="d-inline">
+                                <input type="hidden" name="lectureId" value="${lecture.lectureId}">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn-action btn-danger btn-icon" title="<spring:message code="course.lecture.delete"/>">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </c:if>
+                    </div>
                 </c:forEach>
             </div>
         </c:when>
         <c:otherwise>
-            <p class="no-content">No lectures available</p>
+            <p class="no-content"><spring:message code="course.lecture.empty"/></p>
         </c:otherwise>
     </c:choose>
 
     <!-- Polls Section -->
-    <h3 class="section-heading">
-        <i class="fas fa-poll"></i>
-        Polls
-    </h3>
+    <div class="section-heading">
+        <div class="d-flex align-items-center gap-2">
+            <i class="fas fa-poll"></i>
+            <spring:message code="course.polls"/>
+        </div>
+        <c:if test="${role == 'teacher'}">
+            <button class="btn-auth btn-teacher" id="addPollBtn" onclick="togglePollForm()">
+                <i class="fas fa-plus"></i> <spring:message code="course.poll.add"/>
+            </button>
+        </c:if>
+    </div>
+    <form id="pollForm" action="/poll/addPoll" method="POST" class="form" enctype="multipart/form-data" style="display: none;">
+        <div class="mb-3">
+            <input type="text" class="form-control" name="pollTitle" id="pollTitle"
+                   placeholder="<spring:message code="course.poll.title.placeholder"/>" required>
+        </div>
+        <div class="mb-3">
+            <input type="text" class="form-control" name="option1" id="option1"
+                   placeholder="<spring:message code="course.poll.option" arguments="1"/>" required>
+        </div>
+        <div class="mb-3">
+            <input type="text" class="form-control" name="option2" id="option2"
+                   placeholder="<spring:message code="course.poll.option" arguments="2"/>" required>
+        </div>
+        <div class="mb-3">
+            <input type="text" class="form-control" name="option3" id="option3"
+                   placeholder="<spring:message code="course.poll.option" arguments="3"/>" required>
+        </div>
+        <div class="mb-3">
+            <input type="text" class="form-control" name="option4" id="option4"
+                   placeholder="<spring:message code="course.poll.option" arguments="4"/>" required>
+        </div>
+        <div class="d-flex justify-content-end gap-2">
+            <button type="submit" class="btn-auth btn-success">
+                <i class="fas fa-check me-2"></i>
+                <spring:message code="course.poll.submit"/>
+            </button>
+        </div>
+    </form>
+
     <c:choose>
         <c:when test="${not empty polls}">
             <div class="list-group">
                 <c:forEach var="poll" items="${polls}">
-                    <a href="/poll/${poll.pollId}" class="list-group-item">
-                        <i class="fas fa-chart-bar"></i>
-                            ${poll.pollQuestion}
-                    </a>
+                    <div class="list-group-item">
+                        <a href="/poll/${poll.pollId}" class="flex-grow-1 text-decoration-none">
+                            <i class="fas fa-chart-bar"></i>
+                                ${poll.pollQuestion}
+                        </a>
+                        <c:if test="${role == 'teacher'}">
+                            <form action="/poll/deletePoll" method="POST" class="d-inline">
+                                <input type="hidden" name="pollId" value="${poll.pollId}">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn-action btn-danger btn-icon" title="<spring:message code="course.poll.delete"/>">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </c:if>
+                    </div>
                 </c:forEach>
             </div>
         </c:when>
         <c:otherwise>
-            <p class="no-content">No polls available</p>
+            <p class="no-content"><spring:message code="course.poll.empty"/></p>
         </c:otherwise>
     </c:choose>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
