@@ -1,4 +1,4 @@
-# COMP 3820SEF / S380F / S380W Group Project README
+# COMP 3820SEF Group Project README
 
 ## Project Title: Online Course Website
 
