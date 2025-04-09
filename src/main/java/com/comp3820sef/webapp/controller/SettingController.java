@@ -63,8 +63,8 @@ public class SettingController {
         return "setting";
     }
 
-    @PostMapping("/user/userAction")
-    public String userAction(@AuthenticationPrincipal UserPrincipal user,
+    @PostMapping("/user/editUser")
+    public String userAction(
                            @RequestParam("formType") String formType,
                            @RequestParam("userId") int userId,
                            @RequestParam("fullName") String fullName,
@@ -74,9 +74,29 @@ public class SettingController {
                            @RequestParam("phoneNumber") String phoneNumber,
                            @RequestParam("role") String role
                            ) {
+
+        try {
+                usersService.editUser(userId, fullName, username, email, phoneNumber, password, role);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return "redirect:/user/setting";
+
+    }
+
+
+    @PostMapping("/user/addUser")
+    public String userAction(
+            @RequestParam("fullName") String fullName,
+            @RequestParam("password") String password,
+            @RequestParam("username") String username,
+            @RequestParam("email") String email,
+            @RequestParam("phoneNumber") String phoneNumber,
+            @RequestParam("role") String role
+    ) {
         String passcode = "";
         try {
-            if ("add".equals(formType)) {
                 Users newStudent = new Users();
                 newStudent.setUsername(username);
                 newStudent.setPassword(password);
@@ -88,10 +108,6 @@ public class SettingController {
                     passcode = TEACHER_PASSCODE;
                 }
                 usersService.addUser(newStudent, passcode);
-            }
-            if ("edit".equals(formType)) {
-                usersService.editUser(userId, fullName, username, email, phoneNumber, password, role);
-            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -99,6 +115,7 @@ public class SettingController {
         return "redirect:/user/setting";
 
     }
+
 
     @PostMapping("/user/deleteUser")
     public String deleteUser(@AuthenticationPrincipal UserPrincipal user, @RequestParam("userId") int userId) {

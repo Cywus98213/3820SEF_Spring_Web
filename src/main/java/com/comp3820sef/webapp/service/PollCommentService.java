@@ -28,6 +28,10 @@ public class PollCommentService {
         return pollCommentsRepository.findPollCommentsByPoll_PollId(pollId);
     }
 
+    public void deletePollCommentsByPollCommentId(int pollCommentId) {
+        pollCommentsRepository.deleteById(pollCommentId);
+    }
+
     public void addPollComment(int pollId, int userId, String commentText) {
 
         Users user = userRepository.findById(userId).orElseThrow(

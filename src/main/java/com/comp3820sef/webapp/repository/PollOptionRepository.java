@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface PollOptionRepository extends JpaRepository<PollOptions, Integer> {
-    List<PollOptions> findByPollsPollId(int pollId);
+    List<PollOptions> findPollOptionsByPolls_PollId(int pollId);
 
 
 }

@@ -8,14 +8,14 @@ public class PollOptions {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Option_id")
+    @Column(name = "option_id")
     private int optionId;
 
     @ManyToOne
     @JoinColumn(name = "poll_id", nullable = false)
     private Polls polls;
 
-    @Column(name = "Option_text")
+    @Column(name = "option_text")
     private String optionText;
 
     private int voteCount;

@@ -12,4 +12,5 @@ public interface PollCommentsRepository extends JpaRepository<PollComments, Inte
     List<PollComments> findPollCommentsByPoll_PollId(int pollPollId);
 
     List<PollComments> findCommentByUser_UserId(int userId);
+
 }

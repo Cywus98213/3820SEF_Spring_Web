@@ -17,8 +17,8 @@ public class PollOptionsService {
     @Autowired
     private PollsRepository pollsRepository;
 
-    public List<PollOptions> findByPollsPollId(int pollId) {
-        return pollOptionRepository.findByPollsPollId(pollId);
+    public List<PollOptions> findPollOptionsByPolls_PollId(int pollId) {
+        return pollOptionRepository.findPollOptionsByPolls_PollId(pollId);
     }
 
     public void addPollOptions(int newPollId,String... options) {

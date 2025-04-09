@@ -49,6 +49,12 @@
             color: white;
         }
 
+        .actions {
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+        }
+
         .header-actions {
             display: flex;
             justify-content: space-between;
@@ -301,7 +307,7 @@
                 <h5 class="modal-title" id="modalTitle"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form id="userForm" method="POST" action="/user/userAction">
+            <form id="userForm" method="POST" action="/user/editUser">
                 <div class="modal-body">
                     <input type="hidden" id="formType" name="formType">
                     <input type="hidden" id="userId" name="userId" value="${userId}">
@@ -351,18 +357,70 @@
         </div>
     </div>
 </div>
+
+<!-- add modal -->
+<div id="userAddModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new user</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="userAddForm" method="POST" action="/user/addUser">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" name="fullName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control"  name="username" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Phone number</label>
+                        <input type="tel" class="form-control" name="phoneNumber" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">password</label>
+                        <div class="password-container ">
+                            <input type="password" class="form-control"  name="password" required>
+                            <button type="button" id="togglePasswordBtns" class="btn btn-secondary" onclick="togglePasswordVisibility()">
+                                <i id="toggleIcons" class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Role</label>
+                        <select class="form-select" name="role">
+                            <option value="student">Student</option>
+                            <option value="teacher">Teacher</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     function showAddModal() {
-        document.getElementById('userForm').reset();
-        document.getElementById('modalTitle').textContent = "Add New User" ;
-        document.getElementById('formType').value = "add";
-        new bootstrap.Modal(document.getElementById('userModal')).show();
+        new bootstrap.Modal(document.getElementById('userAddModal')).show();
     }
 
     function showEditModal(userType, userId, fullName, username, email, phoneNumber, password, role, userRole) {
         console.log(userType, userId, fullName, username, email, phoneNumber, password, role, userRole)
-        document.getElementById('modalTitle').textContent = `Edit ` + userType;
+        document.getElementById('modalTitle').textContent = `Edit ` + username;
         document.getElementById('userId').value = userId;
         document.getElementById('username').value = username;
         document.getElementById('password').value = password;

@@ -61,6 +61,28 @@
             border-radius: 2px;
         }
 
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-red);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .btn-danger:hover {
+            background: var(--danger-red);
+            color: white;
+        }
+
+        .btn-icon {
+            padding: 0.4rem;
+            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
         .subCon{
             display: flex;
             flex-direction: row;
@@ -323,7 +345,6 @@
                         <i class="fas fa-chart-bar"></i>
                         ${option.voteCount}
                     </span>
-                    <div class="progress-bar" style="width: ${(option.voteCount/totalVotes)*100}%"></div>
                 </button>
             </c:forEach>
         </div>
@@ -378,6 +399,16 @@
                                     <c:if test="${comment.user.roles == 'teacher'}">
                                         <i class="fas fa-check-circle" style="color: var(--success-green); font-size: 0.9em;"></i>
                                     </c:if>
+                                    <c:if test="${role == 'teacher'}">
+                                        <form action="/poll/deletePollComment" method="POST" class="d-inline">
+                                            <input type="hidden" name="pollId" value="${pollId}">
+                                            <input type="hidden" name="pollCommentId" value="${comment.pollCommentId}">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button type="submit" class="btn-action btn-danger btn-icon" title="Delete Note">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </c:if>
                                 </div>
                                 <small class="text-muted">${comment.createAt}</small>
                             </div>
@@ -386,6 +417,7 @@
                                         ${comment.commentText}
                                 </p>
                             </div>
+
                         </div>
                     </c:forEach>
                 </div>

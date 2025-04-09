@@ -76,8 +76,8 @@ public class PollController {
     @PostMapping("/poll/addPoll")
     public String addPoll(@RequestParam("option1") String option1,
                           @RequestParam("option2") String option2,
-                          @RequestParam("option2") String option3,
-                          @RequestParam("option2") String option4,
+                          @RequestParam("option3") String option3,
+                          @RequestParam("option4") String option4,
                           @RequestParam("pollTitle") String pollTitle) {
 
         Polls newPoll = pollsService.addPoll(pollTitle);
@@ -102,10 +102,13 @@ public class PollController {
         Optional<Vote> userVote = voteRepository.findByPollsPollIdAndUserUserId(pollId, userId);
         List<PollComments> pollComments = pollCommentService.findPollCommentsByPollId(pollId);
 
+        String currentRole = user.getUserRole();
+
         model.addAttribute("pollId", pollId);
         model.addAttribute("poll", poll);
+        model.addAttribute("role", currentRole);
         model.addAttribute("pollComments", pollComments);
-        model.addAttribute("options", pollOptionsService.findByPollsPollId(pollId));
+        model.addAttribute("options", pollOptionsService.findPollOptionsByPolls_PollId(pollId));
         model.addAttribute("userVote", userVote.orElse(null));
 
         return "polls";
@@ -115,6 +118,16 @@ public class PollController {
     public String addPollComment(@RequestParam("pollId") int pollId, @RequestParam("commentText") String commentText, @AuthenticationPrincipal UserPrincipal user) {
         int userId = user.getUserId();
         pollCommentService.addPollComment(pollId, userId,commentText);
+        return "redirect:/poll/" + pollId;
+    }
+
+    @PostMapping("/poll/deletePollComment")
+    public String deletePollComment(@RequestParam("pollId") int pollId,@RequestParam("pollCommentId") int pollCommentId, @RequestParam String _method) {
+
+        if ("DELETE".equalsIgnoreCase(_method)){
+            pollCommentService.deletePollCommentsByPollCommentId(pollCommentId);
+        }
+
         return "redirect:/poll/" + pollId;
     }
 
